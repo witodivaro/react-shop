@@ -38,19 +38,9 @@ const sections = [
 ];
 
 const Directory = () => {
-  const renderedItems = sections.map(
-    ({ id, title, imageUrl, size, linkUrl }) => {
-      return (
-        <MenuItem
-          key={id}
-          title={title}
-          imageUrl={imageUrl}
-          size={size}
-          linkUrl={linkUrl}
-        />
-      );
-    }
-  );
+  const renderedItems = sections.map(({ id, ...sectionProps }) => {
+    return <MenuItem key={id} {...sectionProps} />;
+  });
 
   return <div className="directory-menu">{renderedItems}</div>;
 };
