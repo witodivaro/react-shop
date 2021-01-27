@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import SHOP_DATA from "./shop.data";
 
@@ -6,16 +6,11 @@ import CollectionPreview from "../../components/collection-preview/collection-pr
 
 const Shop = () => {
   const renderedCollections = SHOP_DATA.map((collection) => {
-    const { items } = collection;
-    return <CollectionPreview title={collection.title} items={items} />;
+    const { id, title, items } = collection;
+    return <CollectionPreview key={id} title={title} items={items} />;
   });
 
-  return (
-    <div className="shop-page">
-      Shop page
-      {renderedCollections}
-    </div>
-  );
+  return <div className="shop-page">{renderedCollections}</div>;
 };
 
 export default Shop;
