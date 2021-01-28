@@ -2,18 +2,19 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { setCartDropdownHidden } from "../../redux/cart/cart.action";
+import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
 
 import { ReactComponent as ShoppingIcon } from "../../assets/shopping-bag.svg";
 import "./cart-icon.styles.scss";
 
-const CardIcon = ({ dropdownHidden, setCartDropdownHidden }) => {
+const CartIcon = ({ dropdownHidden, setCartDropdownHidden, itemCount }) => {
   return (
     <div
       className="cart-icon"
       onClick={() => setCartDropdownHidden(!dropdownHidden)}
     >
       <ShoppingIcon className="shopping-icon" />
-      <span className="item-count">{5}</span>
+      <span className="item-count">{itemCount}</span>
     </div>
   );
 };
@@ -21,6 +22,7 @@ const CardIcon = ({ dropdownHidden, setCartDropdownHidden }) => {
 const mapStateToProps = (state) => {
   return {
     dropdownHidden: state.cart.dropdownHidden,
+    itemCount: selectCartItemsCount(state),
   };
 };
 
@@ -31,4 +33,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardIcon);
+export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);

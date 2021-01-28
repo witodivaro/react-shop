@@ -2,16 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 
 import CustomButton from "../custom-button/custom-button.component";
+import CartItem from "../cart-item/cart-item.component";
+import {
+  selectCartItems,
+  selectCartItemsCount,
+} from "../../redux/cart/cart.selectors";
 
 import "./cart-dropdown.styles.scss";
 
 const CartDropdown = ({ cartItems }) => {
-  const renderedItems = cartItems.map(({ id, name }) => {
-    return (
-      <div key={id} className="cart-item">
-        {name}
-      </div>
-    );
+  const renderedItems = cartItems.map((cartItem) => {
+    return <CartItem key={cartItem.id} item={cartItem} />;
   });
 
   return (
@@ -24,7 +25,7 @@ const CartDropdown = ({ cartItems }) => {
 
 const mapStateToProps = (state) => {
   return {
-    cartItems: state.cart.cartItems,
+    cartItems: selectCartItems(state),
   };
 };
 
