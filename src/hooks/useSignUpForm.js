@@ -8,7 +8,15 @@ const useSignUpForm = (defaultInputs) => {
     setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
 
-  return [inputs, handleInputChange];
+  const resetInputs = () => {
+    setInputs(defaultInputs);
+  };
+
+  return {
+    inputs,
+    resetInputs,
+    handleInputChange,
+  };
 };
 
 export default useSignUpForm;
