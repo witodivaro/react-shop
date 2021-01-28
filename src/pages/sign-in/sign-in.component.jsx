@@ -4,19 +4,28 @@ import { Link, withRouter } from "react-router-dom";
 
 import "./sign-in.styles.scss";
 
-import { signInWithGoogle } from "../../firebase/firebase.utils";
+import { signInWithGoogle, auth } from "../../firebase/firebase.utils";
 
 import FormInput from "../../components/form-input/form-input.component";
 import CustomButton from "../../components/custom-button/custom-button.component";
 
-const SignIn = ({ history, match }) => {
-  const [inputs, handleInputChange] = useSignUpForm({
+const SignIn = ({ history }) => {
+  const { inputs, handleInputChange } = useSignUpForm({
     email: "",
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const { email, password } = inputs;
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSignInWithGoogle = (e) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import useSignUpForm from "../../hooks/useSignUpForm";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import "./sign-up.styles.scss";
 
@@ -9,8 +9,8 @@ import FormInput from "../../components/form-input/form-input.component";
 
 import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 
-const SignUp = () => {
-  const { inputs, resetInputs, handleInputChange } = useSignUpForm({
+const SignUp = ({ history }) => {
+  const { inputs, handleInputChange } = useSignUpForm({
     displayName: "",
     email: "",
     password: "",
@@ -31,8 +31,10 @@ const SignUp = () => {
         inputs.password
       );
 
-      createUserProfileDocument(user, { displayName: inputs.displayName });
-      resetInputs();
+      await createUserProfileDocument(user, {
+        displayName: inputs.displayName,
+      });
+      history.push("/");
     } catch (e) {
       console.log(e.message);
     }
@@ -88,4 +90,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default withRouter(SignUp);
