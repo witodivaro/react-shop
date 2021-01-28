@@ -1,15 +1,15 @@
 import React from "react";
 import useSignUpForm from "../../hooks/useSignUpForm";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./sign-up.styles.scss";
 
-import CustomButton from "../../components/custom-button/custom-button.component";
-import FormInput from "../../components/form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
+import FormInput from "../form-input/form-input.component";
 
 import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 
-const SignUp = ({ history }) => {
+const SignUp = () => {
   const { inputs, handleInputChange } = useSignUpForm({
     displayName: "",
     email: "",
@@ -34,7 +34,6 @@ const SignUp = ({ history }) => {
       await createUserProfileDocument(user, {
         displayName: inputs.displayName,
       });
-      history.push("/");
     } catch (e) {
       console.log(e.message);
     }
@@ -81,7 +80,7 @@ const SignUp = ({ history }) => {
           onChange={handleInputChange}
           required
         />
-        <Link className="link" to="/signIn">
+        <Link className="link" to="/sign/signIn">
           Already have an account
         </Link>
         <CustomButton type="submit">Sign up</CustomButton>
@@ -90,4 +89,4 @@ const SignUp = ({ history }) => {
   );
 };
 
-export default withRouter(SignUp);
+export default SignUp;

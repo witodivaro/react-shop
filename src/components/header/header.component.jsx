@@ -5,10 +5,12 @@ import { connect } from "react-redux";
 import { auth } from "../../firebase/firebase.utils";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
+import CartIcon from "../cart-icon/cart-icon.component";
 
 import "./header.styles.scss";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, dropdownHidden }) => {
   console.log(currentUser);
   const renderedAuthentication = currentUser ? (
     <React.Fragment>
@@ -18,10 +20,12 @@ const Header = ({ currentUser }) => {
       </div>
     </React.Fragment>
   ) : (
-    <Link className="option" to="/signIn">
+    <Link className="option" to="/sign/signIn">
       SIGN IN
     </Link>
   );
+
+  const renderedCartDropdown = dropdownHidden ? null : <CartDropdown />;
 
   return (
     <div className="header">
@@ -36,7 +40,11 @@ const Header = ({ currentUser }) => {
           CONTACT
         </Link>
         {renderedAuthentication}
+        <div className="option">
+          <CartIcon />
+        </div>
       </div>
+      {renderedCartDropdown}
     </div>
   );
 };
@@ -44,6 +52,7 @@ const Header = ({ currentUser }) => {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.user.currentUser,
+    dropdownHidden: state.cartDropdown.hidden,
   };
 };
 

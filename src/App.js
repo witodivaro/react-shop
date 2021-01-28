@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "./App.css";
@@ -7,12 +7,12 @@ import "./App.css";
 import Header from "./components/header/header.component";
 import Homepage from "./pages/home/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
-import SignInPage from "./pages/sign-in/sign-in.component";
-import SignUpPage from "./pages/sign-up/sign-up.component";
+import SignPage from "./pages/sign/sign.component";
+
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.action";
 
-const App = ({ setCurrentUser }) => {
+const App = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     let unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
@@ -32,7 +32,10 @@ const App = ({ setCurrentUser }) => {
     return () => {
       unsubscribeFromAuth();
     };
-  }, []);
+  }, [setCurrentUser]);
+
+  const renderSignPage = () =>
+    currentUser ? <Redirect to="/" /> : <SignPage />;
 
   return (
     <div className="App">
@@ -40,11 +43,16 @@ const App = ({ setCurrentUser }) => {
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route exact path="/shop" component={ShopPage} />
-        <Route exact path="/signIn" component={SignInPage} />
-        <Route exact path="/signUp" component={SignUpPage} />
+        <Route path="/sign" render={renderSignPage} />
       </Switch>
     </div>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.user.currentUser,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -53,4 +61,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

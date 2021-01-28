@@ -1,15 +1,15 @@
 import React from "react";
 import useSignUpForm from "../../hooks/useSignUpForm";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./sign-in.styles.scss";
 
 import { signInWithGoogle, auth } from "../../firebase/firebase.utils";
 
-import FormInput from "../../components/form-input/form-input.component";
-import CustomButton from "../../components/custom-button/custom-button.component";
+import FormInput from "../form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
 
-const SignIn = ({ history }) => {
+const SignIn = () => {
   const { inputs, handleInputChange } = useSignUpForm({
     email: "",
     password: "",
@@ -22,7 +22,6 @@ const SignIn = ({ history }) => {
 
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      history.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -31,13 +30,7 @@ const SignIn = ({ history }) => {
   const handleSignInWithGoogle = (e) => {
     e.preventDefault();
 
-    signInWithGoogle()
-      .then((result) => {
-        history.push("/");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    signInWithGoogle();
   };
 
   return (
@@ -64,7 +57,7 @@ const SignIn = ({ history }) => {
           onChange={handleInputChange}
           required
         />
-        <Link className="link" to="/signUp">
+        <Link className="link" to="/sign/signUp">
           Register a new account
         </Link>
 
@@ -79,4 +72,4 @@ const SignIn = ({ history }) => {
   );
 };
 
-export default withRouter(SignIn);
+export default SignIn;
