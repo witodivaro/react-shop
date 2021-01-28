@@ -10,9 +10,12 @@ import "./header.styles.scss";
 const Header = ({ currentUser }) => {
   console.log(currentUser);
   const renderedAuthentication = currentUser ? (
-    <div className="option" onClick={() => auth.signOut()}>
-      SIGN OUT
-    </div>
+    <React.Fragment>
+      <div className="option">{currentUser.displayName?.toUpperCase()}</div>
+      <div className="option" onClick={() => auth.signOut()}>
+        SIGN OUT
+      </div>
+    </React.Fragment>
   ) : (
     <Link className="option" to="/signIn">
       SIGN IN

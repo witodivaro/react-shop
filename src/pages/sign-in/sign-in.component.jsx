@@ -1,6 +1,6 @@
 import React from "react";
 import useSignUpForm from "../../hooks/useSignUpForm";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import "./sign-in.styles.scss";
 
@@ -9,7 +9,7 @@ import { signInWithGoogle } from "../../firebase/firebase.utils";
 import FormInput from "../../components/form-input/form-input.component";
 import CustomButton from "../../components/custom-button/custom-button.component";
 
-const SignIn = () => {
+const SignIn = ({ history, match }) => {
   const [inputs, handleInputChange] = useSignUpForm({
     email: "",
     password: "",
@@ -17,6 +17,18 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  };
+
+  const handleSignInWithGoogle = (e) => {
+    e.preventDefault();
+
+    signInWithGoogle()
+      .then((result) => {
+        history.push("/");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   return (
@@ -49,7 +61,7 @@ const SignIn = () => {
 
         <div className="buttons">
           <CustomButton type="submit">Sign in</CustomButton>
-          <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+          <CustomButton onClick={handleSignInWithGoogle} isGoogleSignIn>
             Sign in with Google
           </CustomButton>
         </div>
@@ -58,4 +70,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default withRouter(SignIn);

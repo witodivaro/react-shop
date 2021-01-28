@@ -7,18 +7,51 @@ import "./sign-up.styles.scss";
 import CustomButton from "../../components/custom-button/custom-button.component";
 import FormInput from "../../components/form-input/form-input.component";
 
+import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
+
 const SignUp = () => {
-  const [inputs, handleInputChange] = useSignUpForm({
+  const { inputs, resetInputs, handleInputChange } = useSignUpForm({
+    displayName: "",
     email: "",
     password: "",
     passwordConfirm: "",
   });
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (inputs.password !== inputs.passwordConfirm) {
+      alert("Passwords don't match!");
+      return;
+    }
+
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(
+        inputs.email,
+        inputs.password
+      );
+
+      createUserProfileDocument(user, { displayName: inputs.displayName });
+      resetInputs();
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
   return (
     <div className="sign-up">
       <h1 className="title">Sign Up</h1>
       <span className="subtitle">Fill the fields to sign up</span>
-      <form>
+      <form onSubmit={handleSubmit}>
+        <FormInput
+          id="displayName"
+          name="displayName"
+          type="text"
+          label="Name"
+          value={inputs.displayName}
+          onChange={handleInputChange}
+          required
+        />
         <FormInput
           id="email"
           name="email"
@@ -41,7 +74,7 @@ const SignUp = () => {
           id="passwordConfirm"
           name="passwordConfirm"
           type="password"
-          label="Password confirm"
+          label="Confirm password"
           value={inputs.passwordConfirm}
           onChange={handleInputChange}
           required

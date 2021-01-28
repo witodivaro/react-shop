@@ -15,7 +15,12 @@ const FormInput = ({ handleChange, label, value, id, ...otherProps }) => {
   return (
     <div className="group">
       {renderedLabel}
-      <input className="form-input" onChange={handleChange} {...otherProps} />
+      <input
+        value={value}
+        className="form-input"
+        onChange={handleChange}
+        {...otherProps}
+      />
     </div>
   );
 };
