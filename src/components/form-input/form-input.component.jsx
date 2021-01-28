@@ -5,7 +5,7 @@ import "./form-input.styles.scss";
 const FormInput = ({ handleChange, label, value, id, ...otherProps }) => {
   const renderedLabel = label ? (
     <label
-      className={`${value.length ? "shrink" : ""} form-input-label`}
+      className={`${value ? "shrink" : ""} form-input-label`}
       htmlFor={id || ""}
     >
       {label}

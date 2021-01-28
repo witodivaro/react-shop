@@ -1,0 +1,24 @@
+.sign-up {
+  margin: 0 auto;
+
+  min-width: 300px;
+  width: 30vw;
+
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    margin: 10px 0;
+  }
+
+  .link {
+    margin-bottom: 20px;
+
+    display: block;
+    width: 100%;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
