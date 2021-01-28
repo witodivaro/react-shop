@@ -1,14 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { setCartDropdownHidden } from "../../redux/cart-dropdown/cart-dropdown.action";
+import { setCartDropdownHidden } from "../../redux/cart/cart.action";
 
 import { ReactComponent as ShoppingIcon } from "../../assets/shopping-bag.svg";
 import "./cart-icon.styles.scss";
 
-const CardIcon = ({ hidden, setCartDropdownHidden }) => {
+const CardIcon = ({ dropdownHidden, setCartDropdownHidden }) => {
   return (
-    <div className="cart-icon" onClick={() => setCartDropdownHidden(!hidden)}>
+    <div
+      className="cart-icon"
+      onClick={() => setCartDropdownHidden(!dropdownHidden)}
+    >
       <ShoppingIcon className="shopping-icon" />
       <span className="item-count">{5}</span>
     </div>
@@ -17,13 +20,14 @@ const CardIcon = ({ hidden, setCartDropdownHidden }) => {
 
 const mapStateToProps = (state) => {
   return {
-    hidden: state.cartDropdown.hidden,
+    dropdownHidden: state.cart.dropdownHidden,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCartDropdownHidden: (hidden) => dispatch(setCartDropdownHidden(hidden)),
+    setCartDropdownHidden: (dropdownHidden) =>
+      dispatch(setCartDropdownHidden(dropdownHidden)),
   };
 };
 

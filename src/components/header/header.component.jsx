@@ -52,7 +52,7 @@ const Header = ({ currentUser, dropdownHidden }) => {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.user.currentUser,
-    dropdownHidden: state.cartDropdown.hidden,
+    dropdownHidden: state.cart.dropdownHidden,
   };
 };
 
