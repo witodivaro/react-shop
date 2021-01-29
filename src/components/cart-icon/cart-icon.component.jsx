@@ -1,8 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
 import { setCartDropdownHidden } from "../../redux/cart/cart.action";
 import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
+import { selectCartDropdownHidden } from "../../redux/cart/cart.selectors";
 
 import { ReactComponent as ShoppingIcon } from "../../assets/shopping-bag.svg";
 import "./cart-icon.styles.scss";
@@ -19,12 +21,10 @@ const CartIcon = ({ dropdownHidden, setCartDropdownHidden, itemCount }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    dropdownHidden: state.cart.dropdownHidden,
-    itemCount: selectCartItemsCount(state),
-  };
-};
+const mapStateToProps = createStructuredSelector({
+  dropdownHidden: selectCartDropdownHidden,
+  itemCount: selectCartItemsCount,
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
