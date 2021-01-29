@@ -10,6 +10,7 @@ import {
 } from "../../redux/cart/cart.selectors";
 
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
+import StripeButton from "../../components/stripe-button/stripe-button.component";
 
 const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
   const renderedItems = cartItems.map((cartItem) => {
@@ -37,6 +38,13 @@ const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
       </div>
       {renderedItems}
       <span className="total">TOTAL: ${cartItemsPrice}</span>
+
+      <p className="test-warning">
+        This is not a real payment! <br />
+        To check payment use this card info: <br />
+        4242-4242-4242-4242 | expire date: any future date | cvv: any 3 digits
+      </p>
+      <StripeButton price={cartItemsPrice} />
     </div>
   );
 };
