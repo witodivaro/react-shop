@@ -19,13 +19,13 @@ export const removeItemFromCart = (cartItems, cartItemToRemove) => {
     (cartItem) => cartItemToRemove.id === cartItem.id
   );
 
-  if (cartItemToRemove.quantity === 1) {
+  if (existingCartItem.quantity === 1) {
     return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
   }
 
   return cartItems.map((cartItem) =>
     cartItem.id === cartItemToRemove.id
-      ? { ...cartItemToRemove, quantity: cartItemToRemove.quantity - 1 }
+      ? { ...cartItemToRemove, quantity: existingCartItem.quantity - 1 }
       : cartItem
   );
 };
