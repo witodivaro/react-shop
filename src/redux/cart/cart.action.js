@@ -1,9 +1,9 @@
 import { CartActionTypes } from "./cart.types";
 
-export const setCartDropdownHidden = (dropdownHidden) => {
+export const toggleCartDropdownHidden = () => {
   return {
-    type: CartActionTypes.SET_DROPDOWN_HIDDEN,
-    payload: dropdownHidden,
+    type: CartActionTypes.TOGGLE_DROPDOWN_HIDDEN,
+    payload: "",
   };
 };
 
@@ -17,6 +17,13 @@ export const addCartItem = (item) => {
 export const removeCartItem = (item) => {
   return {
     type: CartActionTypes.REMOVE_ITEM,
+    payload: item,
+  };
+};
+
+export const clearCartItem = (item) => {
+  return {
+    type: CartActionTypes.CLEAR_ITEM,
     payload: item,
   };
 };

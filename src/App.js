@@ -9,6 +9,7 @@ import Header from "./components/header/header.component";
 import Homepage from "./pages/home/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import SignPage from "./pages/sign/sign.component";
+import CheckoutPage from "./pages/checkout/checkout.component";
 
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.action";
@@ -46,6 +47,7 @@ const App = ({ currentUser, setCurrentUser }) => {
         <Route exact path="/" component={Homepage} />
         <Route exact path="/shop" component={ShopPage} />
         <Route path="/sign" render={renderSignPage} />
+        <Route exact path="/checkout" component={CheckoutPage} />
       </Switch>
     </div>
   );

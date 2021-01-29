@@ -1,5 +1,5 @@
 import { CartActionTypes } from "./cart.types.js";
-import { addItemToCart } from "./cart.utils";
+import { addItemToCart, removeItemFromCart } from "./cart.utils";
 
 const INITIAL_STATE = {
   dropdownHidden: true,
@@ -8,12 +8,10 @@ const INITIAL_STATE = {
 
 const cartDropdownReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case CartActionTypes.SET_DROPDOWN_HIDDEN:
-      if (state.dropdownHidden === action.payload) return state;
-
+    case CartActionTypes.TOGGLE_DROPDOWN_HIDDEN:
       return {
         ...state,
-        dropdownHidden: action.payload,
+        dropdownHidden: !state.dropdownHidden,
       };
 
     case CartActionTypes.ADD_ITEM:
@@ -26,7 +24,15 @@ const cartDropdownReducer = (state = INITIAL_STATE, action) => {
     case CartActionTypes.REMOVE_ITEM:
       return {
         ...state,
-        cartItems: [...state.cartItems],
+        cartItems: removeItemFromCart(state.cartItems, action.payload),
+      };
+
+    case CartActionTypes.CLEAR_ITEM:
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          (cartItem) => cartItem.id !== action.payload.id
+        ),
       };
 
     default:
