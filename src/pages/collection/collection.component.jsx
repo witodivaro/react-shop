@@ -7,16 +7,15 @@ import { selectCollection } from "../../redux/shop/shop.selectors";
 
 import "./collection.styles.scss";
 
-const CollectionPage = ({ collection }) => {
-  console.log(collection);
-  const renderedItems = collection.items.map((item) => (
+const CollectionPage = ({ collection: { items, title } }) => {
+  const renderedItems = items.map((item) => (
     <CollectionItem key={item.id} item={item} />
   ));
 
   return (
-    <div className="collection">
-      <h2>Category page</h2>
-      {renderedItems}
+    <div className="collection-page">
+      <h2 className="title">{title.toUpperCase()}</h2>
+      <div className="items">{renderedItems}</div>
     </div>
   );
 };
