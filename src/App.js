@@ -12,7 +12,7 @@ import SignPage from "./pages/sign/sign.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import { setCurrentUser } from "./redux/user/user.action";
+import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 
 const App = ({ currentUser, setCurrentUser }) => {
@@ -37,15 +37,15 @@ const App = ({ currentUser, setCurrentUser }) => {
     };
   }, [setCurrentUser]);
 
-  const renderSignPage = () =>
-    currentUser ? <Redirect to="/" /> : <SignPage />;
+  const renderSignPage = (props) =>
+    currentUser ? <Redirect to="/" /> : <SignPage {...props} />;
 
   return (
     <div className="App">
       <Header />
       <Switch>
         <Route exact path="/" component={Homepage} />
-        <Route exact path="/shop" component={ShopPage} />
+        <Route path="/shop" component={ShopPage} />
         <Route path="/sign" render={renderSignPage} />
         <Route exact path="/checkout" component={CheckoutPage} />
       </Switch>

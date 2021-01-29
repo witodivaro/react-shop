@@ -13,7 +13,6 @@ import { selectCartDropdownHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 
 const Header = ({ currentUser, dropdownHidden }) => {
-  console.log(currentUser);
   const renderedAuthentication = currentUser ? (
     <React.Fragment>
       <div className="option">{currentUser.displayName.toUpperCase()}</div>
