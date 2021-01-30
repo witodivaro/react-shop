@@ -1,14 +1,14 @@
-import React, { useEffect, useRef } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import { withRouter } from "react-router-dom";
+import React, { useEffect, useRef, useMemo } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { withRouter } from 'react-router-dom';
 
-import CustomButton from "../custom-button/custom-button.component";
-import CartItem from "../cart-item/cart-item.component";
-import { selectCartItems } from "../../redux/cart/cart.selectors";
-import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions";
+import CustomButton from '../custom-button/custom-button.component';
+import CartItem from '../cart-item/cart-item.component';
+import { selectCartItems } from '../../redux/cart/cart.selectors';
+import { toggleCartDropdownHidden } from '../../redux/cart/cart.actions';
 
-import "./cart-dropdown.styles.scss";
+import './cart-dropdown.styles.scss';
 
 const CartDropdown = ({ cartItems, toggleCartDropdownHidden, history }) => {
   const dropdownRef = useRef();
@@ -22,25 +22,29 @@ const CartDropdown = ({ cartItems, toggleCartDropdownHidden, history }) => {
       toggleCartDropdownHidden();
     };
 
-    document.body.addEventListener("click", onBodyClick, { capture: true });
+    document.body.addEventListener('click', onBodyClick, { capture: true });
 
     return () => {
-      document.body.removeEventListener("click", onBodyClick, {
+      document.body.removeEventListener('click', onBodyClick, {
         capture: true,
       });
     };
   }, [toggleCartDropdownHidden]);
 
-  const renderedItems = cartItems.length ? (
-    cartItems.map((cartItem) => {
-      return <CartItem key={cartItem.id} item={cartItem} />;
-    })
-  ) : (
-    <span className="empty-message">Your cart is empty</span>
+  const renderedItems = useMemo(
+    () =>
+      cartItems.length ? (
+        cartItems.map((cartItem) => {
+          return <CartItem key={cartItem.id} item={cartItem} />;
+        })
+      ) : (
+        <span className="empty-message">Your cart is empty</span>
+      ),
+    [cartItems]
   );
 
   const handleCheckoutClick = () => {
-    history.push("/checkout");
+    history.push('/checkout');
     toggleCartDropdownHidden();
   };
 

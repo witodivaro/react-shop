@@ -1,21 +1,25 @@
-import React from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { useMemo } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import "./checkout.styles.scss";
+import './checkout.styles.scss';
 
 import {
   selectCartItems,
   selectCartItemsPrice,
-} from "../../redux/cart/cart.selectors";
+} from '../../redux/cart/cart.selectors';
 
-import CheckoutItem from "../../components/checkout-item/checkout-item.component";
-import StripeButton from "../../components/stripe-button/stripe-button.component";
+import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import StripeButton from '../../components/stripe-button/stripe-button.component';
 
 const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
-  const renderedItems = cartItems.map((cartItem) => {
-    return <CheckoutItem key={cartItem.id} cartItem={cartItem} />;
-  });
+  const renderedItems = useMemo(
+    () =>
+      cartItems.map((cartItem) => {
+        return <CheckoutItem key={cartItem.id} cartItem={cartItem} />;
+      }),
+    [cartItems]
+  );
 
   return (
     <div className="checkout-page">

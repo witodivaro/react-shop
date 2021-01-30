@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useMemo } from 'react';
 
-import "./collection-preview.styles.scss";
+import './collection-preview.styles.scss';
 
-import CollectionItem from "../collection-item/collection-item.component";
+import CollectionItem from '../collection-item/collection-item.component';
 
 const CollectionPreview = ({ title, items }) => {
-  const renderedItems = items.slice(0, 4).map((item) => {
-    return <CollectionItem key={item.id} item={item}></CollectionItem>;
-  });
+  const renderedItems = useMemo(
+    () =>
+      items.slice(0, 4).map((item) => {
+        return <CollectionItem key={item.id} item={item}></CollectionItem>;
+      }),
+    [items]
+  );
 
   return (
     <div className="collection-preview">

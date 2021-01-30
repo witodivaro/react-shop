@@ -1,32 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import "./header.styles.scss";
+import './header.styles.scss';
 
-import { auth } from "../../firebase/firebase.utils";
-import CartIcon from "../cart-icon/cart-icon.component";
-import CartDropdown from "../cart-dropdown/cart-dropdown.component";
-import { ReactComponent as Logo } from "../../assets/crown.svg";
-import { selectCartDropdownHidden } from "../../redux/cart/cart.selectors";
-import { selectCurrentUser } from "../../redux/user/user.selectors";
+import { auth } from '../../firebase/firebase.utils';
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import { ReactComponent as Logo } from '../../assets/crown.svg';
+import { selectCartDropdownHidden } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 const Header = ({ currentUser, dropdownHidden }) => {
-  const renderedAuthentication = currentUser ? (
-    <React.Fragment>
-      <div className="option">{currentUser.displayName.toUpperCase()}</div>
-      <div className="option" onClick={() => auth.signOut()}>
-        SIGN OUT
-      </div>
-    </React.Fragment>
-  ) : (
-    <Link className="option" to="/sign/signIn">
-      SIGN IN
-    </Link>
+  const renderedAuthentication = useMemo(
+    () =>
+      currentUser ? (
+        <React.Fragment>
+          <div className="option">{currentUser.displayName.toUpperCase()}</div>
+          <div className="option" onClick={() => auth.signOut()}>
+            SIGN OUT
+          </div>
+        </React.Fragment>
+      ) : (
+        <Link className="option" to="/sign/signIn">
+          SIGN IN
+        </Link>
+      ),
+    [currentUser]
   );
 
-  const renderedCartDropdown = dropdownHidden ? null : <CartDropdown />;
+  const renderedCartDropdown = useMemo(
+    () => (dropdownHidden ? null : <CartDropdown />),
+    [dropdownHidden]
+  );
 
   return (
     <div className="header">
