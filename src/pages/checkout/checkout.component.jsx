@@ -21,6 +21,23 @@ const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
     [cartItems]
   );
 
+  const renderedWarning = useMemo(
+    () =>
+      cartItemsPrice ? (
+        <p className="test-warning">
+          This payment is a testing feature, do not use ur real card.
+          <br />
+          Card info: 4242 4242 4242 4242 | future date | 3 random digits
+        </p>
+      ) : null,
+    [cartItemsPrice]
+  );
+
+  const renderedStripeButton = useMemo(
+    () => (cartItemsPrice ? <StripeButton amount={cartItemsPrice} /> : null),
+    [cartItemsPrice]
+  );
+
   return (
     <div className="checkout-page">
       <div className="checkout-header">
@@ -43,12 +60,8 @@ const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
       {renderedItems}
       <span className="total">TOTAL: ${cartItemsPrice}</span>
 
-      <p className="test-warning">
-        This is not a real payment! <br />
-        To check payment use this card info: <br />
-        4242-4242-4242-4242 | expire date: any future date | cvv: any 3 digits
-      </p>
-      <StripeButton price={cartItemsPrice} />
+      {renderedWarning}
+      {renderedStripeButton}
     </div>
   );
 };
