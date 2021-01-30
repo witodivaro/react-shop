@@ -1,48 +1,62 @@
-import React from "react";
-import useSignUpForm from "../../hooks/useSignUpForm";
-import { Link } from "react-router-dom";
+import React, { useMemo, useState } from 'react';
+import useSignUpForm from '../../hooks/useSignUpForm';
+import { Link } from 'react-router-dom';
 
-import "./sign-up.styles.scss";
+import './sign-up.styles.scss';
 
-import CustomButton from "../custom-button/custom-button.component";
-import FormInput from "../form-input/form-input.component";
+import CustomButton from '../custom-button/custom-button.component';
+import FormInput from '../form-input/form-input.component';
 
-import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
-const SignUp = () => {
+const SignUp = ({ history }) => {
+  const [alertMessage, setAlertMessage] = useState('');
+
   const { inputs, handleInputChange } = useSignUpForm({
-    displayName: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
+    displayName: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
   });
+
+  const renderedDescription = useMemo(
+    () => (alertMessage ? alertMessage : 'Fill the fields to sign up'),
+    [alertMessage]
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (inputs.password !== inputs.passwordConfirm) {
-      alert("Passwords don't match!");
+    const { password, passwordConfirm, email } = inputs;
+
+    if (password !== passwordConfirm) {
+      setAlertMessage("Passwords don't match!");
       return;
     }
 
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
-        inputs.email,
-        inputs.password
+        email,
+        password
       );
 
+      history.push('/sign/verify');
+
+      user.sendEmailVerification();
       await createUserProfileDocument(user, {
         displayName: inputs.displayName,
       });
-    } catch (e) {
-      console.log(e.message);
+    } catch (error) {
+      setAlertMessage(error.message);
     }
   };
 
   return (
     <div className="sign-up">
       <h1 className="title">Sign Up</h1>
-      <span className="subtitle">Fill the fields to sign up</span>
+      <span className={`${alertMessage ? 'alert' : ''}`}>
+        {renderedDescription}
+      </span>
       <form onSubmit={handleSubmit}>
         <FormInput
           id="displayName"

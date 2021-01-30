@@ -1,18 +1,26 @@
-import React from "react";
-import useSignUpForm from "../../hooks/useSignUpForm";
-import { Link } from "react-router-dom";
+import React, { useMemo, useState } from 'react';
+import useSignUpForm from '../../hooks/useSignUpForm';
+import { Link } from 'react-router-dom';
 
-import "./sign-in.styles.scss";
+import './sign-in.styles.scss';
 
-import { signInWithGoogle, auth } from "../../firebase/firebase.utils";
+import { signInWithGoogle, auth } from '../../firebase/firebase.utils';
 
-import FormInput from "../form-input/form-input.component";
-import CustomButton from "../custom-button/custom-button.component";
+import FormInput from '../form-input/form-input.component';
+import CustomButton from '../custom-button/custom-button.component';
 
 const SignIn = () => {
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const renderedDescription = useMemo(
+    () =>
+      alertMessage ? alertMessage : 'Sign in with your email and password',
+    [alertMessage]
+  );
+
   const { inputs, handleInputChange } = useSignUpForm({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const handleSubmit = async (e) => {
@@ -20,10 +28,19 @@ const SignIn = () => {
 
     const { email, password } = inputs;
 
+    auth.signOut();
+
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      await auth
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          if (!auth.currentUser.emailVerified) {
+            setAlertMessage('Email is not verified!');
+          }
+        })
+        .catch((error) => setAlertMessage(error.message));
     } catch (error) {
-      console.log(error);
+      setAlertMessage(error.message);
     }
   };
 
@@ -36,7 +53,9 @@ const SignIn = () => {
   return (
     <div className="sign-in">
       <h1 className="title">Sign In</h1>
-      <span>Sign in with your email and password</span>
+      <span className={`${alertMessage ? 'alert' : ''}`}>
+        {renderedDescription}
+      </span>
 
       <form onSubmit={handleSubmit}>
         <FormInput

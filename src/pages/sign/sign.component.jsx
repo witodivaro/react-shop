@@ -1,17 +1,22 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import SignIn from "../../components/sign-in/sign-in.component";
-import SignUp from "../../components/sign-up/sign-up.component";
+import SignIn from '../../components/sign-in/sign-in.component';
+import SignUp from '../../components/sign-up/sign-up.component';
+import VerifyEmail from '../../components/verify-email/verify-email.component';
 
-const Sign = ({ match }) => {
-  console.log(match);
+import './sign.styles.scss';
+
+const SignPage = ({ match }) => {
   return (
-    <Switch>
-      <Route exact path={`${match.path}/signIn`} component={SignIn} />
-      <Route exact path={`${match.path}/signUp`} component={SignUp} />
-    </Switch>
+    <div className="sign">
+      <Switch>
+        <Route exact path={`${match.path}/signUp`} component={SignUp} />
+        <Route exact path={`${match.path}/signIn`} component={SignIn} />
+        <Route exact path={`${match.path}/verify`} component={VerifyEmail} />
+      </Switch>
+    </div>
   );
 };
 
-export default Sign;
+export default SignPage;

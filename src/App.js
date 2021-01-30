@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { useEffect } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import "./App.css";
+import './App.css';
 
-import Header from "./components/header/header.component";
-import Homepage from "./pages/home/homepage.component";
-import ShopPage from "./pages/shop/shop.component";
-import SignPage from "./pages/sign/sign.component";
-import CheckoutPage from "./pages/checkout/checkout.component";
+import Header from './components/header/header.component';
+import Homepage from './pages/home/homepage.component';
+import ShopPage from './pages/shop/shop.component';
+import SignPage from './pages/sign/sign.component';
+import CheckoutPage from './pages/checkout/checkout.component';
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import { setCurrentUser } from "./redux/user/user.actions";
-import { selectCurrentUser } from "./redux/user/user.selectors";
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/user.actions';
+import { selectCurrentUser } from './redux/user/user.selectors';
 
 const App = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     let unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
+      if (userAuth && userAuth.emailVerified) {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot((snapshot) => {
