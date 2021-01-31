@@ -23,7 +23,8 @@
   }
 
   .quantity {
-    padding-left: 20px;
+    display: flex;
+    align-items: center;
   }
 
   .remove-button {
@@ -33,6 +34,10 @@
   }
 
   .arrow {
+    background: none;
+    border: none;
+    font-size: 16px;
+
     padding: 10px;
     cursor: pointer;
     user-select: none;

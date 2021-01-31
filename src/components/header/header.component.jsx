@@ -9,9 +9,8 @@ import {
   selectCurrentUser,
   selectUserDropdownHidden,
 } from '../../redux/user/user.selectors';
-import UserName from '../user-name/user-name.component';
-import { auth } from '../../firebase/firebase.utils';
 
+import UserName from '../user-name/user-name.component';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import UserDropdown from '../user-dropdown/user-dropdown.component';
