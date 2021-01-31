@@ -11,6 +11,7 @@ import {
 } from '../../redux/user/user.selectors';
 
 import UserName from '../user-name/user-name.component';
+import Search from '../search/search.component';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import UserDropdown from '../user-dropdown/user-dropdown.component';
@@ -45,6 +46,7 @@ const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
       <Link className="logo-container" to="/">
         <Logo className="logo" />
       </Link>
+      <Search placeholder="Search shop items" />
       <div className="options">
         <Link className="option" to="/shop">
           SHOP

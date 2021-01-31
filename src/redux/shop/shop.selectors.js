@@ -9,6 +9,11 @@ export const selectShopCollections = createSelector(
   (shop) => shop.collections
 );
 
+export const selectShopFilter = createSelector(
+  [selectShop],
+  (shop) => shop.filter
+);
+
 export const selectCollectionsForPreview = createSelector(
   [selectShopCollections],
   (collections) => Object.keys(collections).map((key) => collections[key])
@@ -20,13 +25,25 @@ export const selectCollection = memoize((collectionUrlParam) => {
   });
 });
 
-export const selectItemsByFilter = (filter) =>
-  createSelector([selectCollectionsForPreview], (collections) =>
-    collections.filter((item) => {
-      const filterMatches = filter
-        .split()
-        .forEach((filterLetter) => item.name.includes(filterLetter));
+export const selectItemsByFilter = createSelector(
+  [selectCollectionsForPreview, selectShopFilter],
+  (collections, filter) => {
+    const filteredItems = [];
 
-      return filterMatches.indexOf(false) !== -1;
-    })
-  );
+    collections.forEach((collection) => {
+      filteredItems.push(
+        ...collection.items.filter((item) => {
+          const filterMatches = filter
+            .split()
+            .map((filterLetter) =>
+              item.name.toLowerCase().includes(filterLetter.toLowerCase())
+            );
+
+          return filterMatches.indexOf(false) === -1;
+        })
+      );
+    });
+
+    return filteredItems;
+  }
+);

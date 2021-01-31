@@ -1,0 +1,10 @@
+.search-result {
+  max-width: 1920px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+
+  .collection-item {
+    width: 100%;
+  }
+}
