@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import useDebouncer from '../../hooks/useDebouncer';
+
 import { setShopFilter } from '../../redux/shop/shop.actions';
+
+import FormInput from '../form-input/form-input.component';
 
 import './search.styles.scss';
 
@@ -39,8 +42,7 @@ const Search = ({ placeholder, dispatch }) => {
     <div className="search">
       <form onSubmit={(e) => e.preventDefault()} className="search-form">
         <label className="search-label">
-          <input
-            className="search-input"
+          <FormInput
             placeholder={placeholder}
             onChange={handleInputChange}
             value={filter}
