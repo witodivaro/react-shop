@@ -1,0 +1,43 @@
+.user-dropdown {
+  position: absolute;
+  padding: 0 10px;
+  top: 80px;
+  right: 120px;
+  z-index: 4;
+  background-color: #fff;
+
+  width: 120px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+
+  .name {
+    margin-top: 5px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .user-options {
+    border-top: 1px solid #000;
+    padding-top: 5px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    font-size: 14px;
+    text-align: center;
+
+    span {
+      &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .signout {
+    color: rgb(163, 7, 7);
+  }
+}

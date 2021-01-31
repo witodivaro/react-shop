@@ -4,7 +4,7 @@ import { CartActionTypes } from './cart.types.js';
 import { addItemToCart, removeItemFromCart } from './cart.utils';
 
 const INITIAL_STATE = {
-  cartDropdownHidden: true,
+  dropdownHidden: true,
   cartItems: [],
 };
 
@@ -13,7 +13,7 @@ const cartDropdownReducer = (state = INITIAL_STATE, action) => {
     case CartActionTypes.TOGGLE_DROPDOWN_HIDDEN:
       return {
         ...state,
-        cartDropdownHidden: !state.cartDropdownHidden,
+        dropdownHidden: !state.dropdownHidden,
       };
 
     case CartActionTypes.ADD_ITEM:

@@ -1,0 +1,16 @@
+.user-name {
+  cursor: pointer;
+  user-select: none;
+
+  .dropdown-arrow {
+    margin-left: 10px;
+    display: inline-block;
+    transform: rotate(90deg);
+
+    transition: transform 0.3s;
+
+    &.active {
+      transform: rotate(-90deg);
+    }
+  }
+}

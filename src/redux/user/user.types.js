@@ -1,3 +1,4 @@
 export const UserActionTypes = {
-  set: "user/set",
+  SET_USER: 'user/SET_USER',
+  TOGGLE_DROPDOWN_HIDDEN: 'user/TOGGLE_DROPDOWN_HIDDEN',
 };

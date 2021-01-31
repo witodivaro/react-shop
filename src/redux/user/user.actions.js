@@ -1,8 +1,15 @@
-import { UserActionTypes } from "./user.types";
+import { UserActionTypes } from './user.types';
 
 export const setCurrentUser = (user) => {
   return {
-    type: UserActionTypes.set,
+    type: UserActionTypes.SET_USER,
     payload: user,
+  };
+};
+
+export const toggleUserDropdownHidden = () => {
+  return {
+    type: UserActionTypes.TOGGLE_DROPDOWN_HIDDEN,
+    payload: '',
   };
 };

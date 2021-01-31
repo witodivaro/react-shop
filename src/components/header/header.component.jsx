@@ -5,23 +5,24 @@ import { createStructuredSelector } from 'reselect';
 
 import './header.styles.scss';
 
+import {
+  selectCurrentUser,
+  selectUserDropdownHidden,
+} from '../../redux/user/user.selectors';
+import UserName from '../user-name/user-name.component';
 import { auth } from '../../firebase/firebase.utils';
+
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import UserDropdown from '../user-dropdown/user-dropdown.component';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { selectCartDropdownHidden } from '../../redux/cart/cart.selectors';
-import { selectCurrentUser } from '../../redux/user/user.selectors';
 
-const Header = ({ currentUser, cartDropdownHidden }) => {
+const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
   const renderedAuthentication = useMemo(
     () =>
       currentUser ? (
-        <React.Fragment>
-          <div className="option">{currentUser.displayName.toUpperCase()}</div>
-          <div className="option" onClick={() => auth.signOut()}>
-            SIGN OUT
-          </div>
-        </React.Fragment>
+        <UserName className="option" />
       ) : (
         <Link className="option" to="/sign/signIn">
           SIGN IN
@@ -33,6 +34,11 @@ const Header = ({ currentUser, cartDropdownHidden }) => {
   const renderedCartDropdown = useMemo(
     () => (cartDropdownHidden ? null : <CartDropdown />),
     [cartDropdownHidden]
+  );
+
+  const renderedUserDropdown = useMemo(
+    () => (userDropdownHidden ? null : <UserDropdown />),
+    [userDropdownHidden]
   );
 
   return (
@@ -48,6 +54,7 @@ const Header = ({ currentUser, cartDropdownHidden }) => {
           CONTACT
         </Link>
         {renderedAuthentication}
+        {renderedUserDropdown}
         <div className="option">
           <CartIcon />
         </div>
@@ -60,6 +67,7 @@ const Header = ({ currentUser, cartDropdownHidden }) => {
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   cartDropdownHidden: selectCartDropdownHidden,
+  userDropdownHidden: selectUserDropdownHidden,
 });
 
 export default connect(mapStateToProps)(Header);
