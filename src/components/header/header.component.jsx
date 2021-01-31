@@ -12,7 +12,7 @@ import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { selectCartDropdownHidden } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 
-const Header = ({ currentUser, dropdownHidden }) => {
+const Header = ({ currentUser, cartDropdownHidden }) => {
   const renderedAuthentication = useMemo(
     () =>
       currentUser ? (
@@ -31,8 +31,8 @@ const Header = ({ currentUser, dropdownHidden }) => {
   );
 
   const renderedCartDropdown = useMemo(
-    () => (dropdownHidden ? null : <CartDropdown />),
-    [dropdownHidden]
+    () => (cartDropdownHidden ? null : <CartDropdown />),
+    [cartDropdownHidden]
   );
 
   return (
@@ -59,7 +59,7 @@ const Header = ({ currentUser, dropdownHidden }) => {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  dropdownHidden: selectCartDropdownHidden,
+  cartDropdownHidden: selectCartDropdownHidden,
 });
 
 export default connect(mapStateToProps)(Header);

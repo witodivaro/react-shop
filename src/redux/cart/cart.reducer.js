@@ -1,10 +1,10 @@
-import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import { CartActionTypes } from "./cart.types.js";
-import { addItemToCart, removeItemFromCart } from "./cart.utils";
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { CartActionTypes } from './cart.types.js';
+import { addItemToCart, removeItemFromCart } from './cart.utils';
 
 const INITIAL_STATE = {
-  dropdownHidden: true,
+  cartDropdownHidden: true,
   cartItems: [],
 };
 
@@ -13,7 +13,7 @@ const cartDropdownReducer = (state = INITIAL_STATE, action) => {
     case CartActionTypes.TOGGLE_DROPDOWN_HIDDEN:
       return {
         ...state,
-        dropdownHidden: !state.dropdownHidden,
+        cartDropdownHidden: !state.cartDropdownHidden,
       };
 
     case CartActionTypes.ADD_ITEM:
@@ -43,9 +43,9 @@ const cartDropdownReducer = (state = INITIAL_STATE, action) => {
 };
 
 const persistConfig = {
-  key: "cart",
+  key: 'cart',
   storage,
-  whitelist: ["cartItems"],
+  whitelist: ['cartItems'],
 };
 
 export default persistReducer(persistConfig, cartDropdownReducer);
