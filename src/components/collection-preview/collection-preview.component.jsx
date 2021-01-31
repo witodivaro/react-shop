@@ -4,10 +4,12 @@ import './collection-preview.styles.scss';
 
 import CollectionItem from '../collection-item/collection-item.component';
 
+const ITEMS_AMOUNT_ON_PREVIEW = 4;
+
 const CollectionPreview = ({ title, items }) => {
   const renderedItems = useMemo(
     () =>
-      items.slice(0, 4).map((item) => {
+      items.slice(0, ITEMS_AMOUNT_ON_PREVIEW).map((item) => {
         return <CollectionItem key={item.id} item={item}></CollectionItem>;
       }),
     [items]
