@@ -1,6 +1,6 @@
-import memoize from "lodash.memoize";
+import memoize from 'lodash.memoize';
 
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
 const selectShop = (state) => state.shop;
 
@@ -19,3 +19,14 @@ export const selectCollection = memoize((collectionUrlParam) => {
     return collections[collectionUrlParam];
   });
 });
+
+export const selectItemsByFilter = (filter) =>
+  createSelector([selectCollectionsForPreview], (collections) =>
+    collections.filter((item) => {
+      const filterMatches = filter
+        .split()
+        .forEach((filterLetter) => item.name.includes(filterLetter));
+
+      return filterMatches.indexOf(false) !== -1;
+    })
+  );
