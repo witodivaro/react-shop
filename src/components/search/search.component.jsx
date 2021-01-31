@@ -17,7 +17,7 @@ const Search = ({ placeholder, dispatch }) => {
 
   useEffect(() => {
     dispatch(setShopFilter(debouncedFilter));
-  }, [debouncedFilter]);
+  }, [debouncedFilter, dispatch]);
 
   const handleInputChange = (e) => {
     setFilter(e.target.value);
@@ -35,7 +35,7 @@ const Search = ({ placeholder, dispatch }) => {
       ) : (
         <span className="input-icon">🔎</span>
       ),
-    [debouncedFilter]
+    [debouncedFilter, setFilter]
   );
 
   return (

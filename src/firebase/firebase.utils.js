@@ -42,6 +42,24 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+export const changeUserProfile = async (userAuth, newUserData) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth}`);
+  const snapshot = await userRef.get();
+
+  if (!snapshot.exists) return;
+
+  try {
+    await userRef.set({
+      ...snapshot.data(),
+      ...newUserData,
+    });
+  } catch (e) {
+    console.error(e.message);
+  }
+};
+
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);

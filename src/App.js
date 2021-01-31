@@ -11,6 +11,7 @@ import ShopPage from './pages/shop/shop.component';
 import SignPage from './pages/sign/sign.component';
 import CheckoutPage from './pages/checkout/checkout.component';
 import SearchResultPage from './pages/search-result/search-result.component';
+import SettingsPage from './pages/settings/settings.component';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
@@ -48,22 +49,33 @@ const App = ({
 
   useEffect(() => {
     setShopFilter('');
-  }, [location]);
+  }, [location, setShopFilter]);
 
-  const renderSignPage = (props) =>
-    currentUser ? <Redirect to="/" /> : <SignPage {...props} />;
+  const renderSignPage = useMemo(
+    () => (props) =>
+      currentUser ? <Redirect to="/" /> : <SignPage {...props} />,
+    [currentUser]
+  );
 
-  const renderedContent = useMemo(() =>
-    shopFilter ? (
-      <SearchResultPage />
-    ) : (
-      <Switch>
-        <Route exact path="/" component={Homepage} />
-        <Route path="/shop" component={ShopPage} />
-        <Route path="/sign" render={renderSignPage} />
-        <Route exact path="/checkout" component={CheckoutPage} />
-      </Switch>
-    )
+  const renderSettingsPage = useMemo(
+    () => () => (currentUser ? <SettingsPage /> : <Redirect to="/" />),
+    [currentUser]
+  );
+
+  const renderedContent = useMemo(
+    () =>
+      shopFilter ? (
+        <SearchResultPage />
+      ) : (
+        <Switch>
+          <Route exact path="/" component={Homepage} />
+          <Route path="/shop" component={ShopPage} />
+          <Route path="/sign" render={renderSignPage} />
+          <Route exact path="/checkout" component={CheckoutPage} />
+          <Route exact path="/settings" render={renderSettingsPage} />
+        </Switch>
+      ),
+    [shopFilter, renderSignPage, renderSettingsPage]
   );
 
   return (

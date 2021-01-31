@@ -29,7 +29,7 @@
     font-size: 14px;
     text-align: center;
 
-    span {
+    * {
       &:hover {
         text-decoration: underline;
         cursor: pointer;

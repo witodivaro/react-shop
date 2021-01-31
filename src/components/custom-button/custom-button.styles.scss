@@ -9,7 +9,7 @@
   background-color: black;
   color: white;
   text-transform: uppercase;
-  font-family: "Open Sans Condensed";
+  font-family: 'Open Sans Condensed';
   font-weight: bolder;
   display: flex;
   justify-content: center;
@@ -42,5 +42,10 @@
       background-color: black;
       color: white;
     }
+  }
+
+  &[disabled] {
+    border-color: red;
+    border-width: 2px;
   }
 }

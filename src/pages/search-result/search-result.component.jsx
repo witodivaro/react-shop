@@ -8,8 +8,12 @@ import { selectItemsByFilter } from '../../redux/shop/shop.selectors';
 import './search-result.styles.scss';
 
 const SearchResultPage = ({ collectionItems }) => {
-  const renderedItems = useMemo(() =>
-    collectionItems.map((item) => <CollectionItem key={item.id} item={item} />)
+  const renderedItems = useMemo(
+    () =>
+      collectionItems.map((item) => (
+        <CollectionItem key={item.id} item={item} />
+      )),
+    [collectionItems]
   );
 
   return <div className="search-result">{renderedItems}</div>;

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { Link } from 'react-router-dom';
 
 import { auth } from '../../firebase/firebase.utils';
 import { toggleCartDropdownHidden } from '../../redux/cart/cart.actions';
@@ -50,6 +51,9 @@ const UserDropdown = ({
     <div className="user-dropdown" ref={dropdownRef}>
       <span className="name">{currentUser.displayName}</span>
       <div className="user-options">
+        <Link to="/settings" onClick={() => toggleUserDropdownHidden()}>
+          ⚙️ Settings
+        </Link>
         <span className="user-cart" onClick={handleCartClick}>
           🛒 Cart
         </span>

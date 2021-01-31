@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const useSignUpForm = (defaultInputs) => {
   const [inputs, setInputs] = useState(defaultInputs);
@@ -8,13 +8,8 @@ const useSignUpForm = (defaultInputs) => {
     setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
 
-  const resetInputs = () => {
-    setInputs(defaultInputs);
-  };
-
   return {
     inputs,
-    resetInputs,
     handleInputChange,
   };
 };
