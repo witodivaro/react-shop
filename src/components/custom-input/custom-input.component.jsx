@@ -1,15 +1,16 @@
 import React from "react";
 
-import "./custom-input.styles.scss";
+import {
+  InputLabelContainer,
+  InputContainer,
+  CustomInputContainer,
+} from "./custom-input.styles";
 
 const CustomInput = ({ id, label, value, customMaxLength, ...otherProps }) => {
   const renderedLabel = label ? (
-    <label
-      htmlFor={id || ""}
-      className={`input-label ${value ? "shrink" : ""}`}
-    >
+    <InputLabelContainer htmlFor={id || ""} shrink={value}>
       {label}
-    </label>
+    </InputLabelContainer>
   ) : null;
 
   if (value.length > customMaxLength) {
@@ -17,10 +18,10 @@ const CustomInput = ({ id, label, value, customMaxLength, ...otherProps }) => {
   }
 
   return (
-    <div className="custom-input">
-      <input id={id || ""} value={value} {...otherProps} />
+    <CustomInputContainer>
+      <InputContainer id={id || ""} value={value} {...otherProps} />
       {renderedLabel}
-    </div>
+    </CustomInputContainer>
   );
 };
 
