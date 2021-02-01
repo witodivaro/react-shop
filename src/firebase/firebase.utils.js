@@ -51,8 +51,7 @@ export const changeUserProfile = async (userAuth, newUserData) => {
   if (!snapshot.exists) return;
 
   try {
-    await userRef.set({
-      ...snapshot.data(),
+    await userRef.update({
       ...newUserData,
     });
   } catch (e) {
