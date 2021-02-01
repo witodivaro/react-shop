@@ -14,11 +14,13 @@
   }
 
   .setting {
+    margin-bottom: 10px;
+
     width: 100%;
     display: grid;
     align-items: center;
     grid-gap: 20px;
-    grid-template-columns: repeat(3, auto) 1fr;
+    grid-template-columns: 80px repeat(2, auto) 1fr;
 
     .custom-button {
       padding: 2px 10px;
