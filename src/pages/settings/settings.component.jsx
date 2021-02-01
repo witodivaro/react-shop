@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { connect } from "react-redux";
 import useSignUpForm from "../../hooks/useSignUpForm";
 import { createStructuredSelector } from "reselect";
@@ -22,7 +22,7 @@ const SettingsPage = ({ currentUser }) => {
     newPassword: "",
   });
 
-  const onChangeNameClick = useMemo(
+  const onChangeNameClick = useCallback(
     () => (name) => {
       changeUserProfile(currentUser.id, {
         [name]: inputs[name],
@@ -32,7 +32,7 @@ const SettingsPage = ({ currentUser }) => {
     [currentUser, inputs]
   );
 
-  const onConfirmPasswordClick = useMemo(
+  const onConfirmPasswordClick = useCallback(
     () => (passwordInput) => {
       const credentials = createCredentials(
         auth.currentUser.email,
@@ -49,7 +49,7 @@ const SettingsPage = ({ currentUser }) => {
     [inputs]
   );
 
-  const onChangePasswordClick = useMemo(
+  const onChangePasswordClick = useCallback(
     () => (newPasswordInput) => {
       auth.currentUser.updatePassword(inputs[newPasswordInput]).then(() => {
         alert("Password changed!");
@@ -60,8 +60,8 @@ const SettingsPage = ({ currentUser }) => {
     [inputs]
   );
 
-  const renderButton = useMemo(
-    () => (name, onClick, text = "Change") =>
+  const renderButton = useCallback(
+    (name, onClick, text = "Change") =>
       inputs[name] ? (
         <CustomButton
           inverted
