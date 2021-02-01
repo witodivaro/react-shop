@@ -23,7 +23,8 @@ const SettingsPage = ({ currentUser }) => {
   });
 
   const onChangeNameClick = useCallback(
-    () => (name) => {
+    (name) => {
+      console.log(1);
       changeUserProfile(currentUser.id, {
         [name]: inputs[name],
       });
@@ -33,7 +34,7 @@ const SettingsPage = ({ currentUser }) => {
   );
 
   const onConfirmPasswordClick = useCallback(
-    () => (passwordInput) => {
+    (passwordInput) => {
       const credentials = createCredentials(
         auth.currentUser.email,
         inputs[passwordInput]
@@ -50,7 +51,7 @@ const SettingsPage = ({ currentUser }) => {
   );
 
   const onChangePasswordClick = useCallback(
-    () => (newPasswordInput) => {
+    (newPasswordInput) => {
       auth.currentUser.updatePassword(inputs[newPasswordInput]).then(() => {
         alert("Password changed!");
         setShowNewPassword(false);
