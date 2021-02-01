@@ -1,23 +1,23 @@
-import React, { useEffect, useMemo } from 'react';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import React, { useEffect, useMemo } from "react";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-import './App.css';
+import "./App.css";
 
-import Header from './components/header/header.component';
-import Homepage from './pages/home/homepage.component';
-import ShopPage from './pages/shop/shop.component';
-import SignPage from './pages/sign/sign.component';
-import CheckoutPage from './pages/checkout/checkout.component';
-import SearchResultPage from './pages/search-result/search-result.component';
-import SettingsPage from './pages/settings/settings.component';
+import Header from "./components/header/header.component";
+import Homepage from "./pages/home/homepage.component";
+import ShopPage from "./pages/shop/shop.component";
+import SignPage from "./pages/sign/sign.component";
+import CheckoutPage from "./pages/checkout/checkout.component";
+import SearchResultPage from "./pages/search-result/search-result.component";
+import SettingsPage from "./pages/settings/settings.component";
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { setCurrentUser } from './redux/user/user.actions';
-import { selectCurrentUser } from './redux/user/user.selectors';
-import { selectShopFilter } from './redux/shop/shop.selectors';
-import { setShopFilter } from './redux/shop/shop.actions';
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import { setCurrentUser } from "./redux/user/user.actions";
+import { selectCurrentUser } from "./redux/user/user.selectors";
+import { selectShopFilter } from "./redux/shop/shop.selectors";
+import { setShopFilter } from "./redux/shop/shop.actions";
 
 const App = ({
   location,
@@ -48,7 +48,7 @@ const App = ({
   }, [setCurrentUser]);
 
   useEffect(() => {
-    setShopFilter('');
+    setShopFilter("");
   }, [location, setShopFilter]);
 
   const renderSignPage = useMemo(

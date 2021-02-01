@@ -1,9 +1,10 @@
 .search {
+  top: 0;
+  left: 18vw;
+  position: absolute;
   margin-left: auto;
 
-  max-width: 40%;
-  display: flex;
-  flex-grow: 1;
+  width: 40vw;
   align-items: center;
 
   .search-form {
