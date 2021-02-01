@@ -1,4 +1,4 @@
-import shopActionTypes from './shop.types';
+import shopActionTypes from "./shop.types";
 
 export const setShopFilter = (filter) => {
   return {
@@ -6,3 +6,8 @@ export const setShopFilter = (filter) => {
     payload: filter,
   };
 };
+
+export const updateCollections = (collectionsMap) => ({
+  type: shopActionTypes.UPDATE_COLLECTIONS,
+  payload: collectionsMap,
+});

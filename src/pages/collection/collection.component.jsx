@@ -1,15 +1,20 @@
-import React, { useMemo } from 'react';
-import { connect } from 'react-redux';
+import React, { useMemo } from "react";
+import { connect } from "react-redux";
 
-import CollectionItem from '../../components/collection-item/collection-item.component';
+import CollectionItem from "../../components/collection-item/collection-item.component";
 
-import { selectCollection } from '../../redux/shop/shop.selectors';
+import { selectCollection } from "../../redux/shop/shop.selectors";
 
-import './collection.styles.scss';
+import "./collection.styles.scss";
 
-const CollectionPage = ({ collection: { items, title } }) => {
+const CollectionPage = ({ collection }) => {
+  const { items, title } = collection;
+
   const renderedItems = useMemo(
-    () => items.map((item) => <CollectionItem key={item.id} item={item} />),
+    () =>
+      items
+        ? items.map((item) => <CollectionItem key={item.id} item={item} />)
+        : [],
     [items]
   );
 
