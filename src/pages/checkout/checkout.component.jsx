@@ -1,16 +1,22 @@
-import React, { useMemo } from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-
-import './checkout.styles.scss';
+import React, { useMemo } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
 import {
   selectCartItems,
   selectCartItemsPrice,
-} from '../../redux/cart/cart.selectors';
+} from "../../redux/cart/cart.selectors";
 
-import CheckoutItem from '../../components/checkout-item/checkout-item.component';
-import StripeButton from '../../components/stripe-button/stripe-button.component';
+import CheckoutItem from "../../components/checkout-item/checkout-item.component";
+import StripeButton from "../../components/stripe-button/stripe-button.component";
+
+import {
+  TestWarningContainer,
+  CheckoutHeaderContainer,
+  CheckoutPageContainer,
+  HeaderBlock,
+  TotalContainer,
+} from "./checkout.styles";
 
 const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
   const renderedItems = useMemo(
@@ -24,11 +30,11 @@ const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
   const renderedWarning = useMemo(
     () =>
       cartItemsPrice ? (
-        <p className="test-warning">
+        <TestWarningContainer>
           This payment is a testing feature, do not use ur real card.
           <br />
           Card info: 4242 4242 4242 4242 | future date | 3 random digits
-        </p>
+        </TestWarningContainer>
       ) : null,
     [cartItemsPrice]
   );
@@ -39,30 +45,30 @@ const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
   );
 
   return (
-    <div className="checkout-page">
-      <div className="checkout-header">
-        <div className="header-block">
+    <CheckoutPageContainer>
+      <CheckoutHeaderContainer>
+        <HeaderBlock>
           <span>Product</span>
-        </div>
-        <div className="header-block">
-          <span>Decription</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock>
+          <span>Description</span>
+        </HeaderBlock>
+        <HeaderBlock>
           <span>Quantity</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock>
           <span>Price</span>
-        </div>
-        <div className="header-block">
+        </HeaderBlock>
+        <HeaderBlock>
           <span>Remove</span>
-        </div>
-      </div>
+        </HeaderBlock>
+      </CheckoutHeaderContainer>
       {renderedItems}
-      <span className="total">TOTAL: ${cartItemsPrice}</span>
+      <TotalContainer>TOTAL: ${cartItemsPrice}</TotalContainer>
 
       {renderedWarning}
       {renderedStripeButton}
-    </div>
+    </CheckoutPageContainer>
   );
 };
 

@@ -1,9 +1,13 @@
 import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-import "./header.styles.scss";
+import {
+  HeaderContainer,
+  LogoContainer,
+  OptionsContainer,
+  OptionLink,
+} from "./header.styles.jsx";
 
 import {
   selectCurrentUser,
@@ -23,9 +27,7 @@ const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
       currentUser ? (
         <UserName className="option" />
       ) : (
-        <Link className="option" to="/sign/signIn">
-          SIGN IN
-        </Link>
+        <OptionLink to="/sign/signIn">SIGN IN</OptionLink>
       ),
     [currentUser]
   );
@@ -41,25 +43,22 @@ const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
   );
 
   return (
-    <div className="header">
-      <Link className="logo-container" to="/">
-        <Logo className="logo" />
-      </Link>
-      <div className="options">
-        <Link className="option" to="/shop">
-          SHOP
-        </Link>
-        <Link className="option" to="/contact">
-          CONTACT
-        </Link>
+    <HeaderContainer>
+      <LogoContainer to="/">
+        <Logo />
+      </LogoContainer>
+
+      <OptionsContainer>
+        <OptionLink to="/shop">SHOP</OptionLink>
         {renderedAuthentication}
         {renderedUserDropdown}
-        <div className="option">
+        <OptionLink as="div">
           <CartIcon />
-        </div>
-      </div>
+        </OptionLink>
+      </OptionsContainer>
+
       {renderedCartDropdown}
-    </div>
+    </HeaderContainer>
   );
 };
 
