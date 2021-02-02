@@ -1,11 +1,15 @@
-import React, { useMemo } from 'react';
-import { connect } from 'react-redux';
+import React, { useMemo } from "react";
+import { connect } from "react-redux";
 
-import CollectionItem from '../../components/collection-item/collection-item.component';
+import CollectionItem from "../../components/collection-item/collection-item.component";
 
-import { selectCollection } from '../../redux/shop/shop.selectors';
+import { selectCollection } from "../../redux/shop/shop.selectors";
 
-import './collection.styles.scss';
+import {
+  CollectionPageContainer,
+  TitleContainer,
+  ItemsContainer,
+} from "./collection.styles";
 
 const CollectionPage = ({ collection: { items, title } }) => {
   const renderedItems = useMemo(
@@ -14,10 +18,10 @@ const CollectionPage = ({ collection: { items, title } }) => {
   );
 
   return (
-    <div className="collection-page">
-      <h2 className="title">{title.toUpperCase()}</h2>
-      <div className="items">{renderedItems}</div>
-    </div>
+    <CollectionPageContainer>
+      <TitleContainer>{title.toUpperCase()}</TitleContainer>
+      <ItemsContainer>{renderedItems}</ItemsContainer>
+    </CollectionPageContainer>
   );
 };
 
