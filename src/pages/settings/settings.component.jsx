@@ -24,7 +24,6 @@ const SettingsPage = ({ currentUser }) => {
 
   const onChangeNameClick = useCallback(
     (name) => {
-      console.log(1);
       changeUserProfile(currentUser.id, {
         [name]: inputs[name],
       });
