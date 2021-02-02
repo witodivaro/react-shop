@@ -7,12 +7,12 @@ import CollectionPageContainer from "../../pages/collection/collection.container
 import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
 import Search from "../../components/search/search.component";
 
-import { fetchCollectionsStartAsync } from "../../redux/shop/shop.actions";
+import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 
-const Shop = ({ match, fetchCollectionsStartAsync }) => {
+const Shop = ({ match, fetchCollectionsStart }) => {
   useEffect(() => {
-    fetchCollectionsStartAsync();
-  }, [fetchCollectionsStartAsync]);
+    fetchCollectionsStart();
+  }, [fetchCollectionsStart]);
 
   return (
     <div className="shop-page">
@@ -32,7 +32,7 @@ const Shop = ({ match, fetchCollectionsStartAsync }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
 });
 
 export default connect(null, mapDispatchToProps)(Shop);
