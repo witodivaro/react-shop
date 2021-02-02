@@ -10,7 +10,11 @@ import { changeUserProfile } from "../../firebase/firebase.utils";
 import CustomInput from "../../components/custom-input/custom-input.component";
 import CustomButton from "../../components/custom-button/custom-button.component";
 
-import "./settings.styles.scss";
+import {
+  SettingsPageContainer,
+  SettingContainer,
+  SettingsContainer,
+} from "./settings.styles";
 
 const MAX_NAME_LENGTH = 20;
 
@@ -76,8 +80,8 @@ const SettingsPage = ({ currentUser }) => {
 
   const renderedNewPasword = useMemo(
     () => (
-      <div className="setting">
-        <span className="setting-title">New password:</span>
+      <SettingsContainer>
+        <span>New password:</span>
         <CustomInput
           id="newPassword"
           label="Input new password"
@@ -88,15 +92,15 @@ const SettingsPage = ({ currentUser }) => {
           customMaxLength={MAX_NAME_LENGTH}
         />
         {renderButton("newPassword", onChangePasswordClick)}
-      </div>
+      </SettingsContainer>
     ),
     [inputs, handleInputChange, renderButton, onChangePasswordClick]
   );
 
   const renderedPassword = useMemo(
     () => (
-      <div className="setting">
-        <span className="setting-title">Password:</span>
+      <SettingContainer>
+        <span>Password:</span>
         <CustomInput
           id="password"
           label="Input current password"
@@ -107,17 +111,17 @@ const SettingsPage = ({ currentUser }) => {
           customMaxLength={MAX_NAME_LENGTH}
         />
         {renderButton("password", onConfirmPasswordClick, "confirm")}
-      </div>
+      </SettingContainer>
     ),
     [onConfirmPasswordClick, handleInputChange, inputs, renderButton]
   );
 
   return (
-    <div className="settings-page">
+    <SettingsPageContainer>
       <h1>Settings</h1>
-      <div className="settings">
-        <div className="setting">
-          <span className="setting-title">Name:</span>
+      <SettingsContainer>
+        <SettingContainer>
+          <span>Name:</span>
           <CustomInput
             id="displayName"
             name="displayName"
@@ -128,10 +132,10 @@ const SettingsPage = ({ currentUser }) => {
             customMaxLength={MAX_NAME_LENGTH}
           />
           {renderButton("displayName", onChangeNameClick)}
-        </div>
+        </SettingContainer>
         {showNewPassword ? renderedNewPasword : renderedPassword}
-      </div>
-    </div>
+      </SettingsContainer>
+    </SettingsPageContainer>
   );
 };
 
