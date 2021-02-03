@@ -21,7 +21,3 @@ export const fetchConnectionsFailure = (errorMessage) => ({
   type: shopActionTypes.FETCH_COLLECTIONS_FAILURE,
   payload: errorMessage,
 });
-
-export const doSagaAction = () => ({
-  type: "SAGA",
-});

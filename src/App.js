@@ -17,7 +17,7 @@ import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { selectShopFilter } from "./redux/shop/shop.selectors";
-import { doSagaAction, setShopFilter } from "./redux/shop/shop.actions";
+import { setShopFilter } from "./redux/shop/shop.actions";
 
 const App = ({
   location,
@@ -25,7 +25,6 @@ const App = ({
   currentUser,
   setCurrentUser,
   setShopFilter,
-  doSaga,
 }) => {
   useEffect(() => {
     let unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
@@ -96,7 +95,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setCurrentUser: (user) => dispatch(setCurrentUser(user)),
     setShopFilter: (filter) => dispatch(setShopFilter(filter)),
-    doSaga: () => dispatch(doSagaAction()),
   };
 };
 
