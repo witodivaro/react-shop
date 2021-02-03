@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   currentUser: null,
   dropdownHidden: true,
   error: null,
+  redirectToVerify: false,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -35,6 +36,25 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         error: action.payload,
+      };
+
+    case UserActionTypes.SIGN_UP_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case UserActionTypes.SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        redirectToVerify: true,
+        error: "",
+      };
+
+    case UserActionTypes.SET_REDIRECT_TO_FALSE:
+      return {
+        ...state,
+        redirectToVerify: false,
       };
 
     case UserActionTypes.TOGGLE_DROPDOWN_HIDDEN:

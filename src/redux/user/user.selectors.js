@@ -16,3 +16,8 @@ export const selectUserError = createSelector(
   [selectUser],
   (user) => user.error
 );
+
+export const selectRedirectToVerify = createSelector(
+  [selectUser],
+  (user) => user.redirectToVerify
+);

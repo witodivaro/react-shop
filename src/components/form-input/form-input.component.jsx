@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 
-import './form-input.styles.scss';
+import "./form-input.styles.scss";
 
 const FormInput = ({ handleChange, label, value, id, ...otherProps }) => {
   const renderedLabel = useMemo(
     () =>
       label ? (
         <label
-          className={`${value ? 'shrink' : ''} form-input-label`}
-          htmlFor={id || ''}
+          className={`${value ? "shrink" : ""} form-input-label`}
+          htmlFor={id || ""}
         >
           {label}
         </label>
@@ -18,13 +18,13 @@ const FormInput = ({ handleChange, label, value, id, ...otherProps }) => {
 
   return (
     <div className="group">
-      {renderedLabel}
       <input
         value={value}
         className="form-input"
         onChange={handleChange}
         {...otherProps}
       />
+      {renderedLabel}
     </div>
   );
 };

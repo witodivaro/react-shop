@@ -56,3 +56,21 @@ export const signOutFailure = (errorMessage) => ({
   type: UserActionTypes.SIGN_OUT_FAILURE,
   payload: errorMessage,
 });
+
+export const signUpStart = (userSignInData) => ({
+  type: UserActionTypes.SIGN_UP_START,
+  payload: userSignInData,
+});
+
+export const signUpSuccess = () => ({
+  type: UserActionTypes.SIGN_UP_SUCCESS,
+});
+
+export const signUpFailure = (errorMessage) => ({
+  type: UserActionTypes.SIGN_UP_FAILURE,
+  payload: errorMessage,
+});
+
+export const setRedirectToFalse = () => ({
+  type: UserActionTypes.SET_REDIRECT_TO_FALSE,
+});

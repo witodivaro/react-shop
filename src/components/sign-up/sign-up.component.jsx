@@ -1,26 +1,32 @@
-import React, { useMemo, useState } from 'react';
-import useSignUpForm from '../../hooks/useSignUpForm';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useState } from "react";
+import { createStructuredSelector } from "reselect";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import useSignUpForm from "../../hooks/useSignUpForm";
 
-import './sign-up.styles.scss';
+import "./sign-up.styles.scss";
 
-import CustomButton from '../custom-button/custom-button.component';
-import FormInput from '../form-input/form-input.component';
+import CustomButton from "../custom-button/custom-button.component";
+import FormInput from "../form-input/form-input.component";
 
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import {
+  selectRedirectToVerify,
+  selectUserError,
+} from "../../redux/user/user.selectors";
+import { signUpStart } from "../../redux/user/user.actions";
 
-const SignUp = ({ history }) => {
-  const [alertMessage, setAlertMessage] = useState('');
+const SignUp = ({ signUpStart, userError }) => {
+  const [alertMessage, setAlertMessage] = useState(userError);
 
   const { inputs, handleInputChange } = useSignUpForm({
-    displayName: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
+    displayName: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
   });
 
   const renderedDescription = useMemo(
-    () => (alertMessage ? alertMessage : 'Fill the fields to sign up'),
+    () => alertMessage || "Fill the fields to sign up",
     [alertMessage]
   );
 
@@ -34,27 +40,13 @@ const SignUp = ({ history }) => {
       return;
     }
 
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      history.push('/sign/verify');
-
-      user.sendEmailVerification();
-      await createUserProfileDocument(user, {
-        displayName: inputs.displayName,
-      });
-    } catch (error) {
-      setAlertMessage(error.message);
-    }
+    signUpStart(email, password, { displayName: inputs.displayName });
   };
 
   return (
     <div className="sign-up">
       <h1 className="title">Sign Up</h1>
-      <span className={`${alertMessage ? 'alert' : ''}`}>
+      <span className={`${alertMessage ? "alert" : ""}`}>
         {renderedDescription}
       </span>
       <form onSubmit={handleSubmit}>
@@ -103,4 +95,14 @@ const SignUp = ({ history }) => {
   );
 };
 
-export default SignUp;
+const mapStateToProps = createStructuredSelector({
+  userError: selectUserError,
+  redirectToVerify: selectRedirectToVerify,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  signUpStart: (email, password, otherProps) =>
+    dispatch(signUpStart({ email, password, ...otherProps })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
