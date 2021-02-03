@@ -74,3 +74,18 @@ export const signUpFailure = (errorMessage) => ({
 export const setRedirectToFalse = () => ({
   type: UserActionTypes.SET_REDIRECT_TO_FALSE,
 });
+
+export const changeProfileStart = (userData) => ({
+  type: UserActionTypes.CHANGE_PROFILE_START,
+  payload: userData,
+});
+
+export const changeProfileSuccess = (user) => ({
+  type: UserActionTypes.CHANGE_PROFILE_SUCCESS,
+  payload: user,
+});
+
+export const changeProfileFailure = (errorMessage) => ({
+  type: UserActionTypes.CHANGE_PROFILE_FAILURE,
+  payload: errorMessage,
+});

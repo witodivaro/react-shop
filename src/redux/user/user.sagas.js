@@ -7,6 +7,7 @@ import {
   googleProvider,
   createUserProfileDocument,
   getCurrentUser,
+  changeUserProfile,
 } from "../../firebase/firebase.utils";
 
 import {
@@ -16,7 +17,13 @@ import {
   signUpFailure,
   signOutFailure,
   signOutSuccess,
+  changeProfileFailure,
+  changeProfileSuccess,
 } from "./user.actions";
+
+function* putUserSnapshotViaAction(action, snapshot) {
+  yield put(action.call(null, { id: snapshot.id, ...snapshot.data() }));
+}
 
 function* getSnapshotFromUserAuth(userAuth, otherParams) {
   try {
@@ -26,7 +33,7 @@ function* getSnapshotFromUserAuth(userAuth, otherParams) {
       otherParams
     );
     const snapshot = yield userRef.get();
-    yield put(signInSuccess({ id: snapshot.id, ...snapshot.data() }));
+    return snapshot;
   } catch (error) {
     yield put(signInFailure(error.message));
   }
@@ -35,7 +42,8 @@ function* getSnapshotFromUserAuth(userAuth, otherParams) {
 function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
-    yield getSnapshotFromUserAuth(user);
+    const snapshot = yield getSnapshotFromUserAuth(user);
+    yield putUserSnapshotViaAction(signInSuccess, snapshot);
   } catch (error) {
     yield put(signInFailure(error.message));
   }
@@ -51,7 +59,8 @@ function* signInWithEmail({ payload: { email, password } }) {
     if (!user.emailVerified) {
       throw new Error("Email is not verified!");
     }
-    yield getSnapshotFromUserAuth(user);
+    const snapshot = yield getSnapshotFromUserAuth(user);
+    yield putUserSnapshotViaAction(signInSuccess, snapshot);
   } catch (error) {
     yield put(signInFailure(error.message));
   }
@@ -66,7 +75,8 @@ function* isUserAuthenticated() {
     const userAuth = yield getCurrentUser();
     if (!userAuth) return;
 
-    yield getSnapshotFromUserAuth(userAuth);
+    const snapshot = yield getSnapshotFromUserAuth(userAuth);
+    yield putUserSnapshotViaAction(signInSuccess, snapshot);
   } catch (error) {
     put(signInFailure(error.message));
   }
@@ -119,6 +129,22 @@ export function* onSignUpStart() {
   yield takeLatest(UserActionTypes.SIGN_UP_START, signUpWithEmailAndPassword);
 }
 
+function* changeProfile({ payload }) {
+  try {
+    const { id, ...newUserData } = payload;
+
+    const userRef = yield changeUserProfile(id, newUserData);
+    const snapshot = yield userRef.get();
+    yield putUserSnapshotViaAction(changeProfileSuccess, snapshot);
+  } catch (error) {
+    yield put(changeProfileFailure(error.message));
+  }
+}
+
+export function* onChangeProfileStart() {
+  yield takeLatest(UserActionTypes.CHANGE_PROFILE_START, changeProfile);
+}
+
 export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
@@ -127,5 +153,6 @@ export function* userSagas() {
     call(onSignOutStart),
     call(onSignUpStart),
     call(onSignUpSuccess),
+    call(onChangeProfileStart),
   ]);
 }

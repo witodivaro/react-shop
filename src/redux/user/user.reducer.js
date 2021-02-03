@@ -51,6 +51,18 @@ const userReducer = (state = INITIAL_STATE, action) => {
         error: "",
       };
 
+    case UserActionTypes.CHANGE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+
+    case UserActionTypes.CHANGE_PROFILE_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     case UserActionTypes.SET_REDIRECT_TO_FALSE:
       return {
         ...state,

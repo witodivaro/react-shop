@@ -5,7 +5,7 @@ import { createStructuredSelector } from "reselect";
 
 import { auth, createCredentials } from "../../firebase/firebase.utils";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
-import { changeUserProfile } from "../../firebase/firebase.utils";
+import { changeProfileStart } from "../../redux/user/user.actions";
 
 import CustomInput from "../../components/custom-input/custom-input.component";
 import CustomButton from "../../components/custom-button/custom-button.component";
@@ -18,7 +18,7 @@ import {
 
 const MAX_NAME_LENGTH = 20;
 
-const SettingsPage = ({ currentUser }) => {
+const SettingsPage = ({ changeProfileStart, currentUser }) => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const { inputs, handleInputChange } = useSignUpForm({
     displayName: "",
@@ -28,12 +28,12 @@ const SettingsPage = ({ currentUser }) => {
 
   const onChangeNameClick = useCallback(
     (name) => {
-      changeUserProfile(currentUser.id, {
+      changeProfileStart(currentUser.id, {
         [name]: inputs[name],
       });
       inputs[name] = "";
     },
-    [currentUser, inputs]
+    [currentUser, inputs, changeProfileStart]
   );
 
   const onConfirmPasswordClick = useCallback(
@@ -80,7 +80,7 @@ const SettingsPage = ({ currentUser }) => {
 
   const renderedNewPasword = useMemo(
     () => (
-      <SettingsContainer>
+      <SettingContainer>
         <span>New password:</span>
         <CustomInput
           id="newPassword"
@@ -92,7 +92,7 @@ const SettingsPage = ({ currentUser }) => {
           customMaxLength={MAX_NAME_LENGTH}
         />
         {renderButton("newPassword", onChangePasswordClick)}
-      </SettingsContainer>
+      </SettingContainer>
     ),
     [inputs, handleInputChange, renderButton, onChangePasswordClick]
   );
@@ -143,4 +143,9 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps)(SettingsPage);
+const mapDispatchToProps = (dispatch) => ({
+  changeProfileStart: (id, userData) =>
+    dispatch(changeProfileStart({ id, ...userData })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

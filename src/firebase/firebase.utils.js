@@ -76,6 +76,8 @@ export const changeUserProfile = async (userAuth, newUserData) => {
   } catch (e) {
     console.error(e.message);
   }
+
+  return userRef;
 };
 
 export const getCurrentUser = () => {
