@@ -37,10 +37,9 @@ const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
     [cartDropdownHidden]
   );
 
-  const renderedUserDropdown = useMemo(
-    () => (userDropdownHidden ? null : <UserDropdown />),
-    [userDropdownHidden]
-  );
+  const renderedUserDropdown = useMemo(() => {
+    return userDropdownHidden ? null : <UserDropdown />;
+  }, [userDropdownHidden]);
 
   return (
     <HeaderContainer>

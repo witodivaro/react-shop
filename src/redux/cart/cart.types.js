@@ -1,6 +1,6 @@
 export const CartActionTypes = {
-  TOGGLE_DROPDOWN_HIDDEN: "cart/toggleDropdownHidden",
-  ADD_ITEM: "cart/addItem",
-  REMOVE_ITEM: "cart/removeItem",
-  CLEAR_ITEM: "cart/clearItem",
+  TOGGLE_DROPDOWN_HIDDEN: "cart/TOGGLE_DROPDOWN_HIDDEN",
+  ADD_ITEM: "cart/ADD_ITEM",
+  REMOVE_ITEM: "cart/REMOVE_ITEM",
+  CLEAR_ITEM: "cart/CLEAR_ITEM",
 };

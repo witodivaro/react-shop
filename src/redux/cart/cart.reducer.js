@@ -22,7 +22,6 @@ const cartDropdownReducer = (state = INITIAL_STATE, action) => {
         cartItems: addItemToCart(state.cartItems, action.payload),
       };
 
-    // to-do. does nothing rn
     case CartActionTypes.REMOVE_ITEM:
       return {
         ...state,

@@ -1,18 +1,21 @@
-import React, { useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { Link } from "react-router-dom";
 
-import { auth } from '../../firebase/firebase.utils';
-import { toggleCartDropdownHidden } from '../../redux/cart/cart.actions';
-import { toggleUserDropdownHidden } from '../../redux/user/user.actions';
-import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions";
+import {
+  signOutStart,
+  toggleUserDropdownHidden,
+} from "../../redux/user/user.actions";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 
-import './user-dropdown.styles.scss';
+import "./user-dropdown.styles.scss";
 
 const UserDropdown = ({
   toggleUserDropdownHidden,
   toggleCartDropdownHidden,
+  signOutStart,
   currentUser,
 }) => {
   const dropdownRef = useRef();
@@ -28,10 +31,10 @@ const UserDropdown = ({
       toggleUserDropdownHidden();
     };
 
-    document.body.addEventListener('click', handleBodyClick, { capture: true });
+    document.body.addEventListener("click", handleBodyClick, { capture: true });
 
     return () => {
-      document.body.removeEventListener('click', handleBodyClick, {
+      document.body.removeEventListener("click", handleBodyClick, {
         capture: true,
       });
     };
@@ -44,7 +47,7 @@ const UserDropdown = ({
 
   const handleSignOutClick = () => {
     toggleUserDropdownHidden();
-    auth.signOut();
+    signOutStart();
   };
 
   return (
@@ -68,6 +71,7 @@ const UserDropdown = ({
 const mapDispatchToProps = (dispatch) => ({
   toggleUserDropdownHidden: () => dispatch(toggleUserDropdownHidden()),
   toggleCartDropdownHidden: () => dispatch(toggleCartDropdownHidden()),
+  signOutStart: () => dispatch(signOutStart()),
 });
 
 const mapStateToProps = createStructuredSelector({

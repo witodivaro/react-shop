@@ -3,7 +3,6 @@ import { CartActionTypes } from "./cart.types";
 export const toggleCartDropdownHidden = () => {
   return {
     type: CartActionTypes.TOGGLE_DROPDOWN_HIDDEN,
-    payload: "",
   };
 };
 

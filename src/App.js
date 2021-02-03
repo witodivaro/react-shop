@@ -14,11 +14,20 @@ import SearchResultPage from "./pages/search-result/search-result.component";
 import SettingsPage from "./pages/settings/settings.component";
 
 import { selectCurrentUser } from "./redux/user/user.selectors";
+import { checkUserSession } from "./redux/user/user.actions";
 import { selectShopFilter } from "./redux/shop/shop.selectors";
 import { setShopFilter } from "./redux/shop/shop.actions";
 
-const App = ({ location, shopFilter, currentUser, setShopFilter }) => {
-  useEffect(() => {}, []);
+const App = ({
+  checkUserSession,
+  location,
+  shopFilter,
+  currentUser,
+  setShopFilter,
+}) => {
+  useEffect(() => {
+    checkUserSession();
+  }, [checkUserSession]);
 
   useEffect(() => {
     setShopFilter("");
@@ -67,6 +76,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => {
   return {
     setShopFilter: (filter) => dispatch(setShopFilter(filter)),
+    checkUserSession: () => dispatch(checkUserSession()),
   };
 };
 
