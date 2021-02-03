@@ -33,12 +33,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
       };
 
     case UserActionTypes.SIGN_IN_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
-      };
-
     case UserActionTypes.SIGN_UP_FAILURE:
+    case UserActionTypes.CHANGE_PROFILE_FAILURE:
       return {
         ...state,
         error: action.payload,
@@ -55,12 +51,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         currentUser: action.payload,
-      };
-
-    case UserActionTypes.CHANGE_PROFILE_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
       };
 
     case UserActionTypes.SET_REDIRECT_TO_FALSE:

@@ -7,7 +7,7 @@ import Search from "../../components/search/search.component";
 
 import { selectItemsByFilter } from "../../redux/shop/shop.selectors";
 
-import "./search-result.styles.scss";
+import { SearchResultContainer } from "./search-result.styles";
 
 const SearchResultPage = ({ collectionItems }) => {
   const renderedItems = useMemo(
@@ -19,10 +19,10 @@ const SearchResultPage = ({ collectionItems }) => {
   );
 
   return (
-    <div className="search-result">
+    <SearchResultContainer>
       <Search />
       {renderedItems}
-    </div>
+    </SearchResultContainer>
   );
 };
 
