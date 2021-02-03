@@ -1,59 +1,47 @@
-import React, { useMemo, useState } from 'react';
-import useSignUpForm from '../../hooks/useSignUpForm';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from "react";
+import useSignUpForm from "../../hooks/useSignUpForm";
+import { Link } from "react-router-dom";
+import { createStructuredSelector } from "reselect";
 
-import './sign-in.styles.scss';
+import "./sign-in.styles.scss";
 
-import { signInWithGoogle, auth } from '../../firebase/firebase.utils';
+import FormInput from "../form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from "../../redux/user/user.actions";
+import { connect } from "react-redux";
+import { selectUserError } from "../../redux/user/user.selectors";
 
-import FormInput from '../form-input/form-input.component';
-import CustomButton from '../custom-button/custom-button.component';
-
-const SignIn = () => {
-  const [alertMessage, setAlertMessage] = useState('');
-
+const SignIn = ({ userError, googleSignInStart, emailSignInStart }) => {
   const renderedDescription = useMemo(
-    () =>
-      alertMessage ? alertMessage : 'Sign in with your email and password',
-    [alertMessage]
+    () => userError || "Sign in with your email and password",
+    [userError]
   );
 
   const { inputs, handleInputChange } = useSignUpForm({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const { email, password } = inputs;
 
-    auth.signOut();
-
-    try {
-      await auth
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          if (!auth.currentUser.emailVerified) {
-            setAlertMessage('Email is not verified!');
-          }
-        })
-        .catch((error) => setAlertMessage(error.message));
-    } catch (error) {
-      setAlertMessage(error.message);
-    }
+    emailSignInStart(email, password);
   };
 
   const handleSignInWithGoogle = (e) => {
     e.preventDefault();
 
-    signInWithGoogle();
+    googleSignInStart();
   };
 
   return (
     <div className="sign-in">
       <h1 className="title">Sign In</h1>
-      <span className={`${alertMessage ? 'alert' : ''}`}>
+      <span className={`${userError ? "alert" : ""}`}>
         {renderedDescription}
       </span>
 
@@ -91,4 +79,14 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+const mapDispatchToProps = (dispatch) => ({
+  googleSignInStart: () => dispatch(googleSignInStart()),
+  emailSignInStart: (email, password) =>
+    dispatch(emailSignInStart({ email, password })),
+});
+
+const mapStateToProps = createStructuredSelector({
+  userError: selectUserError,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

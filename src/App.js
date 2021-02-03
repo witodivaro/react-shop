@@ -13,39 +13,12 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 import SearchResultPage from "./pages/search-result/search-result.component";
 import SettingsPage from "./pages/settings/settings.component";
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { selectShopFilter } from "./redux/shop/shop.selectors";
 import { setShopFilter } from "./redux/shop/shop.actions";
 
-const App = ({
-  location,
-  shopFilter,
-  currentUser,
-  setCurrentUser,
-  setShopFilter,
-}) => {
-  useEffect(() => {
-    let unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth && userAuth.emailVerified) {
-        const userRef = await createUserProfileDocument(userAuth);
-
-        userRef.onSnapshot((snapshot) => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
-          });
-        });
-      } else {
-        setCurrentUser(null);
-      }
-    });
-
-    return () => {
-      unsubscribeFromAuth();
-    };
-  }, [setCurrentUser]);
+const App = ({ location, shopFilter, currentUser, setShopFilter }) => {
+  useEffect(() => {}, []);
 
   useEffect(() => {
     setShopFilter("");
@@ -93,7 +66,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setCurrentUser: (user) => dispatch(setCurrentUser(user)),
     setShopFilter: (filter) => dispatch(setShopFilter(filter)),
   };
 };

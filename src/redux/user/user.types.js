@@ -1,4 +1,10 @@
-export const UserActionTypes = {
-  SET_USER: 'user/SET_USER',
-  TOGGLE_DROPDOWN_HIDDEN: 'user/TOGGLE_DROPDOWN_HIDDEN',
+const UserActionTypes = {
+  SET_USER: "user/SET_USER",
+  TOGGLE_DROPDOWN_HIDDEN: "user/TOGGLE_DROPDOWN_HIDDEN",
+  GOOGLE_SIGN_IN_START: "user/GOOGLE_SIGN_IN_START",
+  EMAIL_SIGN_IN_START: "user/EMAIL_SIGN_IN_START",
+  SIGN_IN_SUCCESS: "user/SIGN_IN_SUCCESS",
+  SIGN_IN_FAILURE: "user/SIGN_IN_FAILURE",
 };
+
+export default UserActionTypes;
