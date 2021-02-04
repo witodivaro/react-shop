@@ -40,7 +40,7 @@ const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
   );
 
   const renderedStripeButton = useMemo(
-    () => (cartItemsPrice ? <StripeButton amount={cartItemsPrice} /> : null),
+    () => (cartItemsPrice ? <StripeButton total={cartItemsPrice} /> : null),
     [cartItemsPrice]
   );
 
