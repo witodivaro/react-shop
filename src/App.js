@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
@@ -18,13 +18,9 @@ import { checkUserSession } from "./redux/user/user.actions";
 import { selectShopFilter } from "./redux/shop/shop.selectors";
 import { setShopFilter } from "./redux/shop/shop.actions";
 
-const App = ({
-  checkUserSession,
-  location,
-  shopFilter,
-  currentUser,
-  setShopFilter,
-}) => {
+const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
+  const location = useLocation();
+
   useEffect(() => {
     checkUserSession();
   }, [checkUserSession]);
@@ -80,4 +76,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);

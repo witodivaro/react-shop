@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useMemo } from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect, useRef, useMemo } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { useHistory } from "react-router-dom";
 
-import CustomButton from '../custom-button/custom-button.component';
-import CartItem from '../cart-item/cart-item.component';
-import { selectCartItems } from '../../redux/cart/cart.selectors';
-import { toggleCartDropdownHidden } from '../../redux/cart/cart.actions';
+import CustomButton from "../custom-button/custom-button.component";
+import CartItem from "../cart-item/cart-item.component";
+import { selectCartItems } from "../../redux/cart/cart.selectors";
+import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions";
 
-import './cart-dropdown.styles.scss';
+import "./cart-dropdown.styles.scss";
 
-const CartDropdown = ({ cartItems, toggleCartDropdownHidden, history }) => {
+const CartDropdown = ({ cartItems, toggleCartDropdownHidden }) => {
+  const history = useHistory();
   const dropdownRef = useRef();
 
   useEffect(() => {
@@ -22,10 +23,10 @@ const CartDropdown = ({ cartItems, toggleCartDropdownHidden, history }) => {
       toggleCartDropdownHidden();
     };
 
-    document.body.addEventListener('click', onBodyClick, { capture: true });
+    document.body.addEventListener("click", onBodyClick, { capture: true });
 
     return () => {
-      document.body.removeEventListener('click', onBodyClick, {
+      document.body.removeEventListener("click", onBodyClick, {
         capture: true,
       });
     };
@@ -44,7 +45,7 @@ const CartDropdown = ({ cartItems, toggleCartDropdownHidden, history }) => {
   );
 
   const handleCheckoutClick = () => {
-    history.push('/checkout');
+    history.push("/checkout");
     toggleCartDropdownHidden();
   };
 
@@ -64,6 +65,4 @@ const mapDispatchToProps = (dispatch) => ({
   toggleCartDropdownHidden: () => dispatch(toggleCartDropdownHidden()),
 });
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CartDropdown)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CartDropdown);

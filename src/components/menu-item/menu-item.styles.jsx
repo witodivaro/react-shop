@@ -5,7 +5,7 @@ const LargeMenuItemStyles = css`
 `;
 
 const getMenuItemStyles = (props) => {
-  if (props.large) return LargeMenuItemStyles;
+  if (props.size === "large") return LargeMenuItemStyles;
 };
 
 export const TitleContainer = styled.h1`
