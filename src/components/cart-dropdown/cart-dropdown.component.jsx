@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useMemo } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import CustomButton from "../custom-button/custom-button.component";
@@ -10,7 +9,9 @@ import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions";
 
 import "./cart-dropdown.styles.scss";
 
-const CartDropdown = ({ cartItems, toggleCartDropdownHidden }) => {
+const CartDropdown = () => {
+  const cartItems = useSelector(selectCartItems);
+  const dispatch = useDispatch();
   const history = useHistory();
   const dropdownRef = useRef();
 
@@ -20,7 +21,7 @@ const CartDropdown = ({ cartItems, toggleCartDropdownHidden }) => {
         return;
       }
       e.stopPropagation();
-      toggleCartDropdownHidden();
+      dispatch(toggleCartDropdownHidden());
     };
 
     document.body.addEventListener("click", onBodyClick, { capture: true });
@@ -30,7 +31,7 @@ const CartDropdown = ({ cartItems, toggleCartDropdownHidden }) => {
         capture: true,
       });
     };
-  }, [toggleCartDropdownHidden]);
+  }, [dispatch]);
 
   const renderedItems = useMemo(
     () =>
@@ -57,12 +58,4 @@ const CartDropdown = ({ cartItems, toggleCartDropdownHidden }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  cartItems: selectCartItems,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  toggleCartDropdownHidden: () => dispatch(toggleCartDropdownHidden()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartDropdown);
+export default CartDropdown;
