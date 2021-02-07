@@ -3,7 +3,7 @@ import { CustomButtonContainer } from '../custom-button/custom-button.styles';
 
 export const AbsoluteCustomButtonContainer = styled(CustomButtonContainer)`
   position: absolute;
-  top: 255px;
+  top: 240px;
 
   width: 80%;
 
@@ -22,6 +22,7 @@ export const CollectionFooterContainer = styled.div`
   margin-top: auto;
 
   width: 100%;
+  height: 10%;
   display: flex;
   justify-content: space-between;
   font-size: 18px;

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import TinySlider from 'tiny-slider-react';
 import CollectionItem from '../collection-item/collection-item.component';
@@ -10,11 +11,13 @@ import {
 } from './collection-preview.styles';
 
 const ITEMS_AMOUNT_ON_PREVIEW = 4;
-const TOTAL_ITEMS_AMOUNT = 8;
 
 const CollectionPreview = ({ title, items }) => {
+  const history = useHistory();
+  const match = useRouteMatch();
+
   const renderedItems = useMemo(() => {
-    return items.slice(0, TOTAL_ITEMS_AMOUNT).map((item) => {
+    return items.map((item) => {
       return (
         <ItemContainer key={item.id}>
           <CollectionItem item={item} />
@@ -25,7 +28,11 @@ const CollectionPreview = ({ title, items }) => {
 
   return (
     <CollectionPreviewContainer>
-      <TitleContainer>{title.toUpperCase()}</TitleContainer>
+      <TitleContainer
+        onClick={() => history.push(`${match.path}/${title.toLowerCase()}`)}
+      >
+        {title.toUpperCase()}
+      </TitleContainer>
       <TinySlider
         className="preview"
         settings={{
@@ -34,7 +41,7 @@ const CollectionPreview = ({ title, items }) => {
           nav: false,
           autoplay: true,
           autoplayButtonOutput: false,
-          autoplayTimeout: 2500,
+          autoplayTimeout: 5000,
           autoplayHoverPause: true,
           useLocalStorage: true,
         }}

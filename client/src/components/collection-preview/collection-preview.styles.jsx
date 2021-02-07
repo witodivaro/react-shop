@@ -15,10 +15,17 @@ export const CollectionPreviewContainer = styled.div`
 export const TitleContainer = styled.h2`
   font-size: 28px;
   margin-bottom: 25px;
+  text-align: center;
+
+  transition: transform 0.2s ease;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.35);
+  }
 `;
 
 export const ItemContainer = styled.div`
-  padding: 0 20px;
+  padding: 0 5px;
   display: block;
 
   ${CollectionItemContainer} {

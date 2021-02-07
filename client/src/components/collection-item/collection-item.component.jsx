@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { addCartItem } from '../../redux/cart/cart.actions';
 
+import { cutStringByLength } from '../../utils/utils';
+
 import {
   CollectionItemContainer,
   AbsoluteCustomButtonContainer,
@@ -12,13 +14,17 @@ import {
   PriceContainer,
 } from './collection-item.styles';
 
+const MAX_NAME_LENGTH = 30;
+
 const CollectionItem = ({ item, addCartItem }) => {
   const { name, price, imageUrl } = item;
   return (
     <CollectionItemContainer>
       <ImageContainer style={{ backgroundImage: `url(${imageUrl})` }} />
       <CollectionFooterContainer>
-        <NameContainer>{name}</NameContainer>
+        <NameContainer>
+          {cutStringByLength(name, MAX_NAME_LENGTH)}
+        </NameContainer>
         <PriceContainer>{price}$</PriceContainer>
       </CollectionFooterContainer>
       <AbsoluteCustomButtonContainer inverted onClick={() => addCartItem(item)}>
