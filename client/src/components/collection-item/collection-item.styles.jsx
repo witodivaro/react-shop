@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { CustomButtonContainer } from "../custom-button/custom-button.styles";
+import styled from 'styled-components';
+import { CustomButtonContainer } from '../custom-button/custom-button.styles';
 
 export const AbsoluteCustomButtonContainer = styled(CustomButtonContainer)`
   position: absolute;
@@ -16,12 +16,12 @@ export const ImageContainer = styled.div`
   height: 95%;
   background-size: cover;
   background-position: center;
-  margin-bottom: 5px;
 `;
 
 export const CollectionFooterContainer = styled.div`
+  margin-top: auto;
+
   width: 100%;
-  height: 5%;
   display: flex;
   justify-content: space-between;
   font-size: 18px;
@@ -43,6 +43,7 @@ export const CollectionItemContainer = styled.div`
   flex-direction: column;
   height: 350px;
   align-items: center;
+  user-select: none;
 
   &:hover {
     ${ImageContainer} {
