@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-import { Route } from "react-router-dom";
-import { connect } from "react-redux";
+import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import CollectionPageContainer from "../../pages/collection/collection.container";
-import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
-import Search from "../../components/search/search.component";
+import CollectionPageContainer from '../../pages/collection/collection.container';
+import CollectionsOverviewContainer from '../../components/collections-overview/collections-overview.container';
+import Search from '../../components/search/search.component';
 
-import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
+import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
 
 const Shop = ({ match, fetchCollectionsStart }) => {
   useEffect(() => {

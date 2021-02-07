@@ -1,19 +1,20 @@
-import { connect } from "react-redux";
-import { compose } from "redux";
-import { createStructuredSelector } from "reselect";
+import { useQuery } from '@apollo/client';
 
-import WithSpinner from "../../components/with-spinner/with-spinner.component";
-import CollectionPage from "./collection.component";
+import Spinner from '../../components/spinner/spinner.component';
+import { COLLECTION_BY_TITLE } from '../../graphql/collections/collections.queries';
 
-import { selectIsCollectionsLoaded } from "../../redux/shop/shop.selectors";
+import CollectionPage from './collection.component';
 
-const mapStateToProps = createStructuredSelector({
-  isLoading: (state) => !selectIsCollectionsLoaded(state),
-});
+const CollectionPageContainer = ({ match }) => {
+  const { loading, data } = useQuery(COLLECTION_BY_TITLE, {
+    variables: { title: match.params.collectionId },
+  });
 
-const CollectionPageContainer = compose(
-  connect(mapStateToProps),
-  WithSpinner
-)(CollectionPage);
+  if (loading) return <Spinner />;
+
+  const collection = data.getCollectionsByTitle;
+
+  return <CollectionPage collection={collection} />;
+};
 
 export default CollectionPageContainer;

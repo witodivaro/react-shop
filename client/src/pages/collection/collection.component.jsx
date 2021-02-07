@@ -1,21 +1,17 @@
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-import CollectionItem from "../../components/collection-item/collection-item.component";
+import CollectionItem from '../../components/collection-item/collection-item.component';
 
-import { selectCollection } from "../../redux/shop/shop.selectors";
+import { selectCollection } from '../../redux/shop/shop.selectors';
 
 import {
   CollectionPageContainer,
   TitleContainer,
   ItemsContainer,
-} from "./collection.styles";
+} from './collection.styles';
 
-const CollectionPage = ({ match }) => {
-  const collection = useSelector((state) =>
-    selectCollection(match.params.collectionId)(state)
-  );
-
+const CollectionPage = ({ collection, match }) => {
   const { items, title } = collection;
 
   const renderedItems = useMemo(

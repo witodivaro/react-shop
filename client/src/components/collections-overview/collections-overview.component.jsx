@@ -1,12 +1,8 @@
-import React, { useMemo } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { useMemo } from 'react';
 
-import "./collections-overview.styles.scss";
+import './collections-overview.styles.scss';
 
-import CollectionPreview from "../collection-preview/collection-preview.component";
-
-import { selectCollectionsForPreview } from "../../redux/shop/shop.selectors";
+import CollectionPreview from '../collection-preview/collection-preview.component';
 
 const CollectionsOverview = ({ collections }) => {
   const renderedCollections = useMemo(
@@ -21,8 +17,4 @@ const CollectionsOverview = ({ collections }) => {
   return <div className="collections-overview">{renderedCollections}</div>;
 };
 
-const mapStateToProps = createStructuredSelector({
-  collections: selectCollectionsForPreview,
-});
-
-export default connect(mapStateToProps)(CollectionsOverview);
+export default CollectionsOverview;
