@@ -1,6 +1,4 @@
 import React, { useMemo } from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
 import {
   HeaderContainer,
@@ -9,21 +7,30 @@ import {
   OptionLink,
 } from './header.styles.jsx';
 
+import { GET_CART_DROPDOWN_HIDDEN } from '../../graphql/cart/cart.queries.js';
 import {
-  selectCurrentUser,
-  selectUserDropdownHidden,
-} from '../../redux/user/user.selectors';
+  GET_CURRENT_USER,
+  GET_USER_DROPDOWN_HIDDEN,
+} from '../../graphql/user/user.queries.js';
 
 import UserName from '../user-name/user-name.component';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import UserDropdown from '../user-dropdown/user-dropdown.component';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
-import { useReactiveVar } from '@apollo/client';
-import { cartDropdownHiddenVar } from '../../graphql/cart/cart.variables.js';
+import { useQuery } from '@apollo/client';
 
-const Header = ({ currentUser, userDropdownHidden }) => {
-  const cartDropdownHidden = useReactiveVar(cartDropdownHiddenVar);
+const Header = () => {
+  const {
+    data: { cartDropdownHidden },
+  } = useQuery(GET_CART_DROPDOWN_HIDDEN);
+  const {
+    data: { currentUser },
+  } = useQuery(GET_CURRENT_USER);
+
+  const {
+    data: { userDropdownHidden },
+  } = useQuery(GET_USER_DROPDOWN_HIDDEN);
 
   const renderedAuthentication = useMemo(
     () =>
@@ -64,9 +71,4 @@ const Header = ({ currentUser, userDropdownHidden }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-  userDropdownHidden: selectUserDropdownHidden,
-});
-
-export default connect(mapStateToProps)(Header);
+export default Header;

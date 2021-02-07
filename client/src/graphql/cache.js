@@ -1,20 +1,38 @@
-import { InMemoryCache } from '@apollo/client';
+import { InMemoryCache, makeVar } from '@apollo/client';
 
-import { cartItemsVar, cartDropdownHiddenVar } from './cart/cart.variables';
+export const cartItemsVar = makeVar([]);
+export const cartDropdownHiddenVar = makeVar(true);
+
+export const currentUserVar = makeVar(null);
+export const userDropdownHiddenVar = makeVar(true);
 
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        cartItems: {
-          read() {
-            return cartItemsVar();
-          },
+        cartItems() {
+          return cartItemsVar();
         },
-        cartDropdownHidden: {
-          read() {
-            return cartDropdownHiddenVar();
-          },
+        cartItemsPrice(price, { readField }) {
+          const cartItems = readField('cartItems');
+          const itemsPrice = cartItems.reduce(
+            (total, item) => total + item.quantity * item.price,
+            0
+          );
+          return itemsPrice;
+        },
+        cartItemsCount(count, { readField }) {
+          const cartItems = readField('cartItems');
+          return cartItems.reduce((total, item) => total + item.quantity, 0);
+        },
+        cartDropdownHidden() {
+          return cartDropdownHiddenVar();
+        },
+        userDropdownHidden() {
+          return userDropdownHiddenVar();
+        },
+        currentUser() {
+          return currentUserVar();
         },
       },
     },

@@ -1,23 +1,20 @@
-import React, { useEffect, useRef } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions";
-import {
-  signOutStart,
-  toggleUserDropdownHidden,
-} from "../../redux/user/user.actions";
-import { selectCurrentUser } from "../../redux/user/user.selectors";
+import { toggleCartDropdownHidden } from '../../graphql/cart/cart.mutations';
+import { toggleUserDropdownHidden } from '../../graphql/user/user.mutations';
+import { signOutStart } from '../../redux/user/user.actions';
+import { useQuery } from '@apollo/client';
+import { GET_CURRENT_USER } from '../../graphql/user/user.queries';
 
-import "./user-dropdown.styles.scss";
+import './user-dropdown.styles.scss';
 
-const UserDropdown = ({
-  toggleUserDropdownHidden,
-  toggleCartDropdownHidden,
-  signOutStart,
-  currentUser,
-}) => {
+const UserDropdown = ({ signOutStart }) => {
+  const {
+    data: { currentUser },
+  } = useQuery(GET_CURRENT_USER);
+
   const dropdownRef = useRef();
 
   useEffect(() => {
@@ -31,10 +28,10 @@ const UserDropdown = ({
       toggleUserDropdownHidden();
     };
 
-    document.body.addEventListener("click", handleBodyClick, { capture: true });
+    document.body.addEventListener('click', handleBodyClick, { capture: true });
 
     return () => {
-      document.body.removeEventListener("click", handleBodyClick, {
+      document.body.removeEventListener('click', handleBodyClick, {
         capture: true,
       });
     };
@@ -69,13 +66,7 @@ const UserDropdown = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleUserDropdownHidden: () => dispatch(toggleUserDropdownHidden()),
-  toggleCartDropdownHidden: () => dispatch(toggleCartDropdownHidden()),
   signOutStart: () => dispatch(signOutStart()),
 });
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserDropdown);
+export default connect(null, mapDispatchToProps)(UserDropdown);

@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
 
-import { COLLECTIONS } from '../../graphql/collections/collections.queries';
+import { GET_SHOP_DATA } from '../../graphql/shop/shop.queries';
 
 import Spinner from '../spinner/spinner.component';
 import CollectionsOverview from './collections-overview.component';
 
 const CollectionsOverviewContainer = () => {
-  const { loading, data } = useQuery(COLLECTIONS);
+  const { loading, data } = useQuery(GET_SHOP_DATA);
 
   if (loading) return <Spinner />;
 

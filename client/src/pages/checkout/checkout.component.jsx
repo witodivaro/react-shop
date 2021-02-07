@@ -1,14 +1,13 @@
-import React, { useMemo } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { useMemo } from 'react';
+import { useQuery } from '@apollo/client';
 
 import {
-  selectCartItems,
-  selectCartItemsPrice,
-} from "../../redux/cart/cart.selectors";
+  GET_CART_ITEMS,
+  GET_CART_ITEMS_PRICE,
+} from '../../graphql/cart/cart.queries';
 
-import CheckoutItem from "../../components/checkout-item/checkout-item.component";
-import StripeButton from "../../components/stripe-button/stripe-button.component";
+import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import StripeButton from '../../components/stripe-button/stripe-button.component';
 
 import {
   TestWarningContainer,
@@ -16,9 +15,17 @@ import {
   CheckoutPageContainer,
   HeaderBlock,
   TotalContainer,
-} from "./checkout.styles";
+} from './checkout.styles';
 
-const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
+const CheckoutPage = () => {
+  const {
+    data: { cartItems },
+  } = useQuery(GET_CART_ITEMS);
+
+  const {
+    data: { cartItemsPrice },
+  } = useQuery(GET_CART_ITEMS_PRICE);
+
   const renderedItems = useMemo(
     () =>
       cartItems.map((cartItem) => {
@@ -72,9 +79,4 @@ const CheckoutPage = ({ cartItems, cartItemsPrice }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  cartItems: selectCartItems,
-  cartItemsPrice: selectCartItemsPrice,
-});
-
-export default connect(mapStateToProps)(CheckoutPage);
+export default CheckoutPage;

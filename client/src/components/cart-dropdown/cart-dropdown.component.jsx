@@ -1,13 +1,11 @@
-import React, { useEffect, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
+import { GET_CART_ITEMS } from '../../graphql/cart/cart.queries';
 import CustomButton from '../custom-button/custom-button.component';
 import CartItem from '../cart-item/cart-item.component';
-import {
-  cartDropdownHiddenVar,
-  cartItemsVar,
-} from '../../graphql/cart/cart.variables';
+import { toggleCartDropdownHidden } from '../../graphql/cart/cart.mutations';
 
 import {
   CartItemsContainer,
@@ -16,12 +14,9 @@ import {
 } from './cart-dropdown.styles';
 
 const CartDropdown = () => {
-  const cartItems = useReactiveVar(cartItemsVar);
-  const cartDropdownHidden = useReactiveVar(cartDropdownHiddenVar);
-
-  const toggleCartDropdownHidden = useCallback(() => {
-    cartDropdownHiddenVar(!cartDropdownHidden);
-  }, [cartDropdownHidden]);
+  const {
+    data: { cartItems },
+  } = useQuery(GET_CART_ITEMS);
 
   const history = useHistory();
   const dropdownRef = useRef();
@@ -42,7 +37,7 @@ const CartDropdown = () => {
         capture: true,
       });
     };
-  }, [toggleCartDropdownHidden]);
+  }, []);
 
   const renderedItems = useMemo(
     () =>

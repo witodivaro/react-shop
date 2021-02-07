@@ -1,23 +1,17 @@
 import React, { useMemo } from 'react';
-import { connect } from 'react-redux';
 
 import {
-  clearCartItem,
-  removeCartItem,
-  addCartItem,
-} from '../../redux/cart/cart.actions';
+  clearItemFromCart,
+  removeItemFromCart,
+  addItemToCart,
+} from '../../graphql/cart/cart.mutations';
 
 import './cart-item.styles.scss';
 
 const MAX_NAME_LENGTH_IN_CART = 14;
 const MAX_WORDS_IN_CART_ITEM_NAME = 2;
 
-const CartItem = ({
-  item,
-  addItemToCart,
-  removeItemFromCart,
-  clearItemFromCart,
-}) => {
+const CartItem = ({ item }) => {
   const { imageUrl, price, quantity, name } = item;
 
   const renderedItemName = useMemo(() => {
@@ -75,10 +69,4 @@ const CartItem = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  clearItemFromCart: (item) => dispatch(clearCartItem(item)),
-  removeItemFromCart: (item) => dispatch(removeCartItem(item)),
-  addItemToCart: (item) => dispatch(addCartItem(item)),
-});
-
-export default connect(null, mapDispatchToProps)(CartItem);
+export default CartItem;

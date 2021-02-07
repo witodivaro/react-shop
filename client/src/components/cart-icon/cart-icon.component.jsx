@@ -1,38 +1,23 @@
-import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import React from 'react';
 
+import { GET_CART_ITEMS_COUNT } from '../../graphql/cart/cart.queries';
 import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
-import { toggleCartDropdownHidden } from '../../redux/cart/cart.actions';
-import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
-import { cartDropdownHiddenVar } from '../../graphql/cart/cart.variables';
+import { toggleCartDropdownHidden } from '../../graphql/cart/cart.mutations';
 
 import './cart-icon.styles.scss';
 
-const CartIcon = ({ itemCount }) => {
-  const cartDropdownHidden = useReactiveVar(cartDropdownHiddenVar);
-
-  const toggleCartDropdownHidden = useCallback(() => {
-    cartDropdownHiddenVar(!cartDropdownHidden);
-  }, [cartDropdownHidden]);
+const CartIcon = () => {
+  const {
+    data: { cartItemsCount },
+  } = useQuery(GET_CART_ITEMS_COUNT);
 
   return (
     <div className="cart-icon" onClick={() => toggleCartDropdownHidden()}>
       <ShoppingIcon className="shopping-icon" />
-      <span className="item-count">{itemCount}</span>
+      <span className="item-count">{cartItemsCount}</span>
     </div>
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  itemCount: selectCartItemsCount,
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleCartDropdownHidden: () => dispatch(toggleCartDropdownHidden()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
+export default CartIcon;

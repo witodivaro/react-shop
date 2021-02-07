@@ -1,23 +1,23 @@
+import { useQuery } from '@apollo/client';
 import React from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
-import { toggleUserDropdownHidden } from '../../redux/user/user.actions';
 import {
-  selectCurrentUser,
-  selectUserDropdownHidden,
-} from '../../redux/user/user.selectors';
-import { toggleCartDropdownHidden } from '../../redux/cart/cart.actions';
+  GET_CURRENT_USER,
+  GET_USER_DROPDOWN_HIDDEN,
+} from '../../graphql/user/user.queries';
+import { toggleUserDropdownHidden } from '../../graphql/user/user.mutations';
 
 import './user-name.styles.scss';
 
-const UserName = ({
-  className,
-  currentUser,
-  userDropdownHidden,
-  toggleUserDropdownHidden,
-  toggleCartDropdownHidden,
-}) => {
+const UserName = ({ className }) => {
+  const {
+    data: { userDropdownHidden },
+  } = useQuery(GET_USER_DROPDOWN_HIDDEN);
+
+  const {
+    data: { currentUser },
+  } = useQuery(GET_CURRENT_USER);
+
   return (
     <div
       className={`user-name ${className}`}
@@ -31,14 +31,4 @@ const UserName = ({
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-  userDropdownHidden: selectUserDropdownHidden,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  toggleUserDropdownHidden: () => dispatch(toggleUserDropdownHidden()),
-  toggleCartDropdownHidden: () => dispatch(toggleCartDropdownHidden()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserName);
+export default UserName;
