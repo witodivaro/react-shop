@@ -1,14 +1,22 @@
-import React from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { useCallback } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { useReactiveVar } from '@apollo/client';
 
-import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions";
-import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
+import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';
+import { toggleCartDropdownHidden } from '../../redux/cart/cart.actions';
+import { selectCartItemsCount } from '../../redux/cart/cart.selectors';
+import { cartDropdownHiddenVar } from '../../graphql/cart/cart.variables';
 
-import { ReactComponent as ShoppingIcon } from "../../assets/shopping-bag.svg";
-import "./cart-icon.styles.scss";
+import './cart-icon.styles.scss';
 
-const CartIcon = ({ toggleCartDropdownHidden, itemCount }) => {
+const CartIcon = ({ itemCount }) => {
+  const cartDropdownHidden = useReactiveVar(cartDropdownHiddenVar);
+
+  const toggleCartDropdownHidden = useCallback(() => {
+    cartDropdownHiddenVar(!cartDropdownHidden);
+  }, [cartDropdownHidden]);
+
   return (
     <div className="cart-icon" onClick={() => toggleCartDropdownHidden()}>
       <ShoppingIcon className="shopping-icon" />

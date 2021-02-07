@@ -1,27 +1,30 @@
-import React, { useMemo } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { useMemo } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
 import {
   HeaderContainer,
   LogoContainer,
   OptionsContainer,
   OptionLink,
-} from "./header.styles.jsx";
+} from './header.styles.jsx';
 
 import {
   selectCurrentUser,
   selectUserDropdownHidden,
-} from "../../redux/user/user.selectors";
+} from '../../redux/user/user.selectors';
 
-import UserName from "../user-name/user-name.component";
-import CartIcon from "../cart-icon/cart-icon.component";
-import CartDropdown from "../cart-dropdown/cart-dropdown.component";
-import UserDropdown from "../user-dropdown/user-dropdown.component";
-import { ReactComponent as Logo } from "../../assets/crown.svg";
-import { selectCartDropdownHidden } from "../../redux/cart/cart.selectors";
+import UserName from '../user-name/user-name.component';
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import UserDropdown from '../user-dropdown/user-dropdown.component';
+import { ReactComponent as Logo } from '../../assets/crown.svg';
+import { useReactiveVar } from '@apollo/client';
+import { cartDropdownHiddenVar } from '../../graphql/cart/cart.variables.js';
 
-const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
+const Header = ({ currentUser, userDropdownHidden }) => {
+  const cartDropdownHidden = useReactiveVar(cartDropdownHiddenVar);
+
   const renderedAuthentication = useMemo(
     () =>
       currentUser ? (
@@ -63,7 +66,6 @@ const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  cartDropdownHidden: selectCartDropdownHidden,
   userDropdownHidden: selectUserDropdownHidden,
 });
 

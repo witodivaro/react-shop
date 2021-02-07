@@ -1,7 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
+import { useReactiveVar } from '@apollo/client';
+import React from 'react';
+import { connect } from 'react-redux';
+import { addItemToCart } from '../../graphql/cart/cart.utils';
+import { cartItemsVar } from '../../graphql/cart/cart.variables';
 
-import { addCartItem } from "../../redux/cart/cart.actions";
+import { addCartItem } from '../../redux/cart/cart.actions';
 
 import {
   CollectionItemContainer,
@@ -10,10 +13,12 @@ import {
   ImageContainer,
   NameContainer,
   PriceContainer,
-} from "./collection-item.styles";
+} from './collection-item.styles';
 
-const CollectionItem = ({ item, addCartItem }) => {
+const CollectionItem = ({ item }) => {
   const { name, price, imageUrl } = item;
+  const cartItems = useReactiveVar(cartItemsVar);
+
   return (
     <CollectionItemContainer>
       <ImageContainer style={{ backgroundImage: `url(${imageUrl})` }} />
@@ -21,7 +26,10 @@ const CollectionItem = ({ item, addCartItem }) => {
         <NameContainer>{name}</NameContainer>
         <PriceContainer>{price}$</PriceContainer>
       </CollectionFooterContainer>
-      <AbsoluteCustomButtonContainer inverted onClick={() => addCartItem(item)}>
+      <AbsoluteCustomButtonContainer
+        inverted
+        onClick={() => cartItemsVar(addItemToCart(cartItems, item))}
+      >
         Add to cart
       </AbsoluteCustomButtonContainer>
     </CollectionItemContainer>

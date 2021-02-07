@@ -1,21 +1,28 @@
-import React, { useEffect, useRef, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useRef, useMemo, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useReactiveVar } from '@apollo/client';
 
-import CustomButton from "../custom-button/custom-button.component";
-import CartItem from "../cart-item/cart-item.component";
-import { selectCartItems } from "../../redux/cart/cart.selectors";
-import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions";
+import CustomButton from '../custom-button/custom-button.component';
+import CartItem from '../cart-item/cart-item.component';
+import {
+  cartDropdownHiddenVar,
+  cartItemsVar,
+} from '../../graphql/cart/cart.variables';
 
 import {
   CartItemsContainer,
   CartDropdownContainer,
   EmptyMessageContainer,
-} from "./cart-dropdown.styles";
+} from './cart-dropdown.styles';
 
 const CartDropdown = () => {
-  const cartItems = useSelector(selectCartItems);
-  const dispatch = useDispatch();
+  const cartItems = useReactiveVar(cartItemsVar);
+  const cartDropdownHidden = useReactiveVar(cartDropdownHiddenVar);
+
+  const toggleCartDropdownHidden = useCallback(() => {
+    cartDropdownHiddenVar(!cartDropdownHidden);
+  }, [cartDropdownHidden]);
+
   const history = useHistory();
   const dropdownRef = useRef();
 
@@ -25,17 +32,17 @@ const CartDropdown = () => {
         return;
       }
       e.stopPropagation();
-      dispatch(toggleCartDropdownHidden());
+      toggleCartDropdownHidden();
     };
 
-    document.body.addEventListener("click", onBodyClick, { capture: true });
+    document.body.addEventListener('click', onBodyClick, { capture: true });
 
     return () => {
-      document.body.removeEventListener("click", onBodyClick, {
+      document.body.removeEventListener('click', onBodyClick, {
         capture: true,
       });
     };
-  }, [dispatch]);
+  }, [toggleCartDropdownHidden]);
 
   const renderedItems = useMemo(
     () =>
@@ -50,7 +57,7 @@ const CartDropdown = () => {
   );
 
   const handleCheckoutClick = () => {
-    history.push("/checkout");
+    history.push('/checkout');
     toggleCartDropdownHidden();
   };
 

@@ -1,9 +1,6 @@
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
 import CollectionItem from '../../components/collection-item/collection-item.component';
-
-import { selectCollection } from '../../redux/shop/shop.selectors';
 
 import {
   CollectionPageContainer,
@@ -11,7 +8,7 @@ import {
   ItemsContainer,
 } from './collection.styles';
 
-const CollectionPage = ({ collection, match }) => {
+const CollectionPage = ({ collection }) => {
   const { items, title } = collection;
 
   const renderedItems = useMemo(
