@@ -5,6 +5,8 @@ import { createStructuredSelector } from "reselect";
 
 import Header from "./components/header/header.component";
 import Spinner from "./components/spinner/spinner.component";
+import ErrorBoundary from "./components/error-boundary/error-boundary.component";
+import PageNotFound from "./components/page-not-found/page-not-found.component";
 
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
@@ -49,15 +51,14 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
       shopFilter ? (
         <SearchResultPage />
       ) : (
-        <Suspense fallback={<Spinner />}>
-          <Switch>
-            <Route exact path="/" component={Homepage} />
-            <Route path="/shop" component={ShopPage} />
-            <Route path="/sign" render={renderSignPage} />
-            <Route exact path="/checkout" component={CheckoutPage} />
-            <Route exact path="/settings" render={renderSettingsPage} />
-          </Switch>
-        </Suspense>
+        <Switch>
+          <Route exact path="/" component={Homepage} />
+          <Route path="/shop" component={ShopPage} />
+          <Route path="/sign" render={renderSignPage} />
+          <Route exact path="/checkout" component={CheckoutPage} />
+          <Route exact path="/settings" render={renderSettingsPage} />
+          <Route path="/" component={PageNotFound} />
+        </Switch>
       ),
     [shopFilter, renderSignPage, renderSettingsPage]
   );
@@ -66,7 +67,9 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
     <div className="App">
       <GlobalStyle />
       <Header />
-      {renderedContent}
+      <ErrorBoundary>
+        <Suspense fallback={<Spinner />}>{renderedContent}</Suspense>
+      </ErrorBoundary>
     </div>
   );
 };
