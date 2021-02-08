@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { CustomButtonContainer } from '../custom-button/custom-button.styles';
+import styled from "styled-components";
+import { CustomButtonContainer } from "../custom-button/custom-button.styles";
 
 export const AbsoluteCustomButtonContainer = styled(CustomButtonContainer)`
   position: absolute;

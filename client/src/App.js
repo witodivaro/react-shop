@@ -3,8 +3,6 @@ import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-import "./App.css";
-
 import Header from "./components/header/header.component";
 import Homepage from "./pages/home/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
@@ -17,6 +15,8 @@ import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 import { selectShopFilter } from "./redux/shop/shop.selectors";
 import { setShopFilter } from "./redux/shop/shop.actions";
+
+import GlobalStyle from "./global.styles";
 
 const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
   const location = useLocation();
@@ -58,6 +58,7 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
 
   return (
     <div className="App">
+      <GlobalStyle />
       <Header />
       {renderedContent}
     </div>

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { CollectionItemContainer } from '../collection-item/collection-item.styles';
+import { CollectionItemContainer } from "../collection-item/collection-item.styles";
 
 export const CollectionPreviewContainer = styled.div`
   display: flex;
@@ -30,5 +30,10 @@ export const ItemContainer = styled.div`
 
   ${CollectionItemContainer} {
     width: 100%;
+
+    @media screen and (max-width: 800px) {
+      width: 320px;
+      margin: 0 auto;
+    }
   }
 `;

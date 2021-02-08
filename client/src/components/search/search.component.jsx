@@ -32,7 +32,7 @@ const Search = ({ currentFilter, dispatch }) => {
           className="clear-input input-icon"
           onClick={() => setFilter("")}
         >
-          ⛌
+          X
         </button>
       ) : (
         <span className="input-icon">🔎</span>
