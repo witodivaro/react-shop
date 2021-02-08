@@ -1,16 +1,17 @@
-import React, { useMemo } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import React, { useMemo } from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
-import TinySlider from 'tiny-slider-react';
-import CollectionItem from '../collection-item/collection-item.component';
+import TinySlider from "tiny-slider-react";
+import CollectionItem from "../collection-item/collection-item.component";
 
 import {
   ItemContainer,
   CollectionPreviewContainer,
   TitleContainer,
-} from './collection-preview.styles';
+} from "./collection-preview.styles";
 
 const ITEMS_AMOUNT_ON_PREVIEW = 4;
+const SLIDER_TIMEOUT = 3500;
 
 const CollectionPreview = ({ title, items }) => {
   const history = useHistory();
@@ -41,7 +42,7 @@ const CollectionPreview = ({ title, items }) => {
           nav: false,
           autoplay: true,
           autoplayButtonOutput: false,
-          autoplayTimeout: 5000,
+          autoplayTimeout: SLIDER_TIMEOUT,
           autoplayHoverPause: true,
           useLocalStorage: true,
         }}
