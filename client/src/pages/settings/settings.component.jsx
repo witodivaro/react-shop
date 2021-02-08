@@ -1,11 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { connect } from "react-redux";
 import useSignUpForm from "../../hooks/useSignUpForm";
-import { createStructuredSelector } from "reselect";
 
 import { auth, createCredentials } from "../../firebase/firebase.utils";
-import { selectCurrentUser } from "../../redux/user/user.selectors";
-import { changeProfileStart } from "../../redux/user/user.actions";
 
 import CustomInput from "../../components/custom-input/custom-input.component";
 import CustomButton from "../../components/custom-button/custom-button.component";
@@ -16,9 +12,17 @@ import {
   SettingsContainer,
 } from "./settings.styles";
 
+import { useQuery } from "@apollo/client";
+import { GET_CURRENT_USER } from "../../graphql/user/user.queries";
+import { changeUserData } from "../../graphql/user/user.mutations";
+
 const MAX_NAME_LENGTH = 20;
 
-const SettingsPage = ({ changeProfileStart, currentUser }) => {
+const SettingsPage = () => {
+  const {
+    data: { currentUser },
+  } = useQuery(GET_CURRENT_USER);
+
   const [showNewPassword, setShowNewPassword] = useState(false);
   const { inputs, handleInputChange } = useSignUpForm({
     displayName: "",
@@ -28,12 +32,12 @@ const SettingsPage = ({ changeProfileStart, currentUser }) => {
 
   const onChangeNameClick = useCallback(
     (name) => {
-      changeProfileStart(currentUser.id, {
+      changeUserData(currentUser.id, {
         [name]: inputs[name],
       });
       inputs[name] = "";
     },
-    [currentUser, inputs, changeProfileStart]
+    [currentUser, inputs, changeUserData]
   );
 
   const onConfirmPasswordClick = useCallback(
@@ -139,13 +143,4 @@ const SettingsPage = ({ changeProfileStart, currentUser }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  changeProfileStart: (id, userData) =>
-    dispatch(changeProfileStart({ id, ...userData })),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
+export default SettingsPage;

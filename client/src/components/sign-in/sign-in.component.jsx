@@ -1,23 +1,26 @@
 import React, { useMemo } from "react";
 import useSignUpForm from "../../hooks/useSignUpForm";
 import { Link } from "react-router-dom";
-import { createStructuredSelector } from "reselect";
 
 import "./sign-in.styles.scss";
 
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import {
-  googleSignInStart,
-  emailSignInStart,
-} from "../../redux/user/user.actions";
-import { connect } from "react-redux";
-import { selectUserError } from "../../redux/user/user.selectors";
+  signInWithEmail,
+  startSignInWithGoogle,
+} from "../../graphql/user/user.mutations";
+import { useQuery } from "@apollo/client";
+import { GET_USER_ERROR_MESSAGE } from "../../graphql/user/user.queries";
 
-const SignIn = ({ userError, googleSignInStart, emailSignInStart }) => {
+const SignIn = () => {
+  const {
+    data: { userErrorMessage },
+  } = useQuery(GET_USER_ERROR_MESSAGE);
+
   const renderedDescription = useMemo(
-    () => userError || "Sign in with your email and password",
-    [userError]
+    () => userErrorMessage || "Sign in with your email and password",
+    [userErrorMessage]
   );
 
   const { inputs, handleInputChange } = useSignUpForm({
@@ -29,19 +32,19 @@ const SignIn = ({ userError, googleSignInStart, emailSignInStart }) => {
     e.preventDefault();
     const { email, password } = inputs;
 
-    emailSignInStart(email, password);
+    signInWithEmail(email, password);
   };
 
   const handleSignInWithGoogle = (e) => {
     e.preventDefault();
 
-    googleSignInStart();
+    startSignInWithGoogle();
   };
 
   return (
     <div className="sign-in">
       <h1 className="title">Sign In</h1>
-      <span className={`${userError ? "alert" : ""}`}>
+      <span className={`${userErrorMessage ? "alert" : ""}`}>
         {renderedDescription}
       </span>
 
@@ -79,14 +82,4 @@ const SignIn = ({ userError, googleSignInStart, emailSignInStart }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  googleSignInStart: () => dispatch(googleSignInStart()),
-  emailSignInStart: (email, password) =>
-    dispatch(emailSignInStart({ email, password })),
-});
-
-const mapStateToProps = createStructuredSelector({
-  userError: selectUserError,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default SignIn;

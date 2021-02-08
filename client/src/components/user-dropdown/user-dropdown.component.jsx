@@ -1,16 +1,17 @@
-import React, { useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
-import { toggleCartDropdownHidden } from '../../graphql/cart/cart.mutations';
-import { toggleUserDropdownHidden } from '../../graphql/user/user.mutations';
-import { signOutStart } from '../../redux/user/user.actions';
-import { useQuery } from '@apollo/client';
-import { GET_CURRENT_USER } from '../../graphql/user/user.queries';
+import { toggleCartDropdownHidden } from "../../graphql/cart/cart.mutations";
+import {
+  signOut,
+  toggleUserDropdownHidden,
+} from "../../graphql/user/user.mutations";
+import { useQuery } from "@apollo/client";
+import { GET_CURRENT_USER } from "../../graphql/user/user.queries";
 
-import './user-dropdown.styles.scss';
+import "./user-dropdown.styles.scss";
 
-const UserDropdown = ({ signOutStart }) => {
+const UserDropdown = () => {
   const {
     data: { currentUser },
   } = useQuery(GET_CURRENT_USER);
@@ -28,14 +29,14 @@ const UserDropdown = ({ signOutStart }) => {
       toggleUserDropdownHidden();
     };
 
-    document.body.addEventListener('click', handleBodyClick, { capture: true });
+    document.body.addEventListener("click", handleBodyClick, { capture: true });
 
     return () => {
-      document.body.removeEventListener('click', handleBodyClick, {
+      document.body.removeEventListener("click", handleBodyClick, {
         capture: true,
       });
     };
-  }, [toggleUserDropdownHidden]);
+  }, []);
 
   const handleCartClick = () => {
     toggleUserDropdownHidden();
@@ -44,7 +45,7 @@ const UserDropdown = ({ signOutStart }) => {
 
   const handleSignOutClick = () => {
     toggleUserDropdownHidden();
-    signOutStart();
+    signOut();
   };
 
   return (
@@ -65,8 +66,4 @@ const UserDropdown = ({ signOutStart }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  signOutStart: () => dispatch(signOutStart()),
-});
-
-export default connect(null, mapDispatchToProps)(UserDropdown);
+export default UserDropdown;

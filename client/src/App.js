@@ -1,32 +1,36 @@
-import React, { useEffect, useMemo } from 'react';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import React, { useEffect, useMemo } from "react";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-import './App.css';
+import "./App.css";
 
-import Header from './components/header/header.component';
-import Homepage from './pages/home/homepage.component';
-import ShopPage from './pages/shop/shop.component';
-import SignPage from './pages/sign/sign.component';
-import CheckoutPage from './pages/checkout/checkout.component';
-import SearchResultPage from './pages/search-result/search-result.component';
-import SettingsPage from './pages/settings/settings.component';
+import Header from "./components/header/header.component";
+import Homepage from "./pages/home/homepage.component";
+import ShopPage from "./pages/shop/shop.component";
+import SignPage from "./pages/sign/sign.component";
+import CheckoutPage from "./pages/checkout/checkout.component";
+import SearchResultPage from "./pages/search-result/search-result.component";
+import SettingsPage from "./pages/settings/settings.component";
 
-import { selectCurrentUser } from './redux/user/user.selectors';
-import { checkUserSession } from './redux/user/user.actions';
-import { selectShopFilter } from './redux/shop/shop.selectors';
-import { setShopFilter } from './redux/shop/shop.actions';
+import { selectShopFilter } from "./redux/shop/shop.selectors";
+import { setShopFilter } from "./redux/shop/shop.actions";
+import { checkCurrentUser } from "./graphql/user/user.mutations";
+import { useQuery } from "@apollo/client";
+import { GET_CURRENT_USER } from "./graphql/user/user.queries";
 
-const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
+const App = ({ shopFilter, setShopFilter }) => {
+  const {
+    data: { currentUser },
+  } = useQuery(GET_CURRENT_USER);
   const location = useLocation();
 
   useEffect(() => {
-    checkUserSession();
-  }, [checkUserSession]);
+    checkCurrentUser();
+  }, [checkCurrentUser]);
 
   useEffect(() => {
-    setShopFilter('');
+    setShopFilter("");
   }, [location, setShopFilter]);
 
   const renderSignPage = useMemo(
@@ -65,14 +69,12 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
   shopFilter: selectShopFilter,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setShopFilter: (filter) => dispatch(setShopFilter(filter)),
-    checkUserSession: () => dispatch(checkUserSession()),
   };
 };
 

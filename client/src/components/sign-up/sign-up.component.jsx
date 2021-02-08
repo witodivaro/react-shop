@@ -1,7 +1,5 @@
-import React, { useMemo, useState } from "react";
-import { createStructuredSelector } from "reselect";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { useMemo } from "react";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import useSignUpForm from "../../hooks/useSignUpForm";
 
 import "./sign-up.styles.scss";
@@ -9,14 +7,18 @@ import "./sign-up.styles.scss";
 import CustomButton from "../custom-button/custom-button.component";
 import FormInput from "../form-input/form-input.component";
 
-import {
-  selectRedirectToVerify,
-  selectUserError,
-} from "../../redux/user/user.selectors";
-import { signUpStart } from "../../redux/user/user.actions";
+import { signUpWithEmail } from "../../graphql/user/user.mutations";
+import { useQuery } from "@apollo/client";
+import { GET_USER_ERROR_MESSAGE } from "../../graphql/user/user.queries";
 
-const SignUp = ({ signUpStart, userError }) => {
-  const [alertMessage, setAlertMessage] = useState(userError);
+const SignUp = () => {
+  const {
+    data: { userErrorMessage },
+  } = useQuery(GET_USER_ERROR_MESSAGE);
+  const history = useHistory();
+  const match = useRouteMatch();
+
+  const parentPath = match.path.split("/").slice(0, -1).join("/");
 
   const { inputs, handleInputChange } = useSignUpForm({
     displayName: "",
@@ -26,8 +28,8 @@ const SignUp = ({ signUpStart, userError }) => {
   });
 
   const renderedDescription = useMemo(
-    () => alertMessage || "Fill the fields to sign up",
-    [alertMessage]
+    () => userErrorMessage || "Fill the fields to sign up",
+    [userErrorMessage]
   );
 
   const handleSubmit = async (e) => {
@@ -36,17 +38,23 @@ const SignUp = ({ signUpStart, userError }) => {
     const { password, passwordConfirm, email } = inputs;
 
     if (password !== passwordConfirm) {
-      setAlertMessage("Passwords don't match!");
+      alert("Passwords don't match!");
       return;
     }
 
-    signUpStart(email, password, { displayName: inputs.displayName });
+    const userRef = await signUpWithEmail(email, password, {
+      displayName: inputs.displayName,
+    });
+    if (userRef) {
+      console.log(match);
+      history.push(`${parentPath}/verify`);
+    }
   };
 
   return (
     <div className="sign-up">
       <h1 className="title">Sign Up</h1>
-      <span className={`${alertMessage ? "alert" : ""}`}>
+      <span className={`${userErrorMessage ? "alert" : ""}`}>
         {renderedDescription}
       </span>
       <form onSubmit={handleSubmit}>
@@ -95,14 +103,4 @@ const SignUp = ({ signUpStart, userError }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  userError: selectUserError,
-  redirectToVerify: selectRedirectToVerify,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  signUpStart: (email, password, otherProps) =>
-    dispatch(signUpStart({ email, password, ...otherProps })),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default SignUp;
