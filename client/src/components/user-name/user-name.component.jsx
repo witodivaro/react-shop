@@ -1,22 +1,21 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import React from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-import { toggleUserDropdownHidden } from '../../redux/user/user.actions';
+import { toggleUserDropdownHidden } from "../../redux/user/user.actions";
 import {
   selectCurrentUser,
   selectUserDropdownHidden,
-} from '../../redux/user/user.selectors';
-import { toggleCartDropdownHidden } from '../../redux/cart/cart.actions';
+} from "../../redux/user/user.selectors";
+import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions";
 
-import './user-name.styles.scss';
+import "./user-name.styles.scss";
 
 const UserName = ({
   className,
   currentUser,
   userDropdownHidden,
   toggleUserDropdownHidden,
-  toggleCartDropdownHidden,
 }) => {
   return (
     <div
@@ -24,7 +23,7 @@ const UserName = ({
       onClick={() => toggleUserDropdownHidden()}
     >
       {currentUser.displayName.toUpperCase()}
-      <span className={`dropdown-arrow ${userDropdownHidden ? '' : 'active'}`}>
+      <span className={`dropdown-arrow ${userDropdownHidden ? "" : "active"}`}>
         ❮
       </span>
     </div>
