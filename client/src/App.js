@@ -1,15 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import React, { lazy, useEffect, useMemo, Suspense } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import Header from "./components/header/header.component";
-import Homepage from "./pages/home/homepage.component";
-import ShopPage from "./pages/shop/shop.component";
-import SignPage from "./pages/sign/sign.component";
-import CheckoutPage from "./pages/checkout/checkout.component";
-import SearchResultPage from "./pages/search-result/search-result.component";
-import SettingsPage from "./pages/settings/settings.component";
+import Spinner from "./components/spinner/spinner.component";
 
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
@@ -17,6 +12,15 @@ import { selectShopFilter } from "./redux/shop/shop.selectors";
 import { setShopFilter } from "./redux/shop/shop.actions";
 
 import GlobalStyle from "./global.styles";
+
+const Homepage = lazy(() => import("./pages/home/homepage.component"));
+const ShopPage = lazy(() => import("./pages/shop/shop.component"));
+const CheckoutPage = lazy(() => import("./pages/checkout/checkout.component"));
+const SearchResultPage = lazy(() =>
+  import("./pages/search-result/search-result.component")
+);
+const SettingsPage = lazy(() => import("./pages/settings/settings.component"));
+const SignPage = lazy(() => import("./pages/sign/sign.component"));
 
 const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
   const location = useLocation();
@@ -45,13 +49,15 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
       shopFilter ? (
         <SearchResultPage />
       ) : (
-        <Switch>
-          <Route exact path="/" component={Homepage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route path="/sign" render={renderSignPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route exact path="/settings" render={renderSettingsPage} />
-        </Switch>
+        <Suspense fallback={<Spinner />}>
+          <Switch>
+            <Route exact path="/" component={Homepage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route path="/sign" render={renderSignPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route exact path="/settings" render={renderSettingsPage} />
+          </Switch>
+        </Suspense>
       ),
     [shopFilter, renderSignPage, renderSettingsPage]
   );

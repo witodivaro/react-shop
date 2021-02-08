@@ -1,5 +1,4 @@
-import { slice } from "lodash";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
 import TinySlider from "tiny-slider-react";
@@ -45,7 +44,7 @@ const CollectionPreview = ({ title, items }) => {
         </ItemContainer>
       );
     });
-  }, [items]);
+  }, [items, isMobile]);
 
   const renderSlider = (children) =>
     isMobile ? (

@@ -8,7 +8,11 @@ import rootSaga from "./root-saga";
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [sagaMiddleware, logger];
+const middleware = [sagaMiddleware];
+
+if (process.env.NODE_ENV === "development") {
+  middleware.push(logger);
+}
 
 export const store = createStore(rootReducer, applyMiddleware(...middleware));
 
