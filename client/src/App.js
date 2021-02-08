@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 
 import "./App.css";
 
@@ -13,25 +11,28 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 import SearchResultPage from "./pages/search-result/search-result.component";
 import SettingsPage from "./pages/settings/settings.component";
 
-import { selectShopFilter } from "./redux/shop/shop.selectors";
-import { setShopFilter } from "./redux/shop/shop.actions";
+import { setShopFilter } from "./graphql/shop/shop.mutations";
 import { checkCurrentUser } from "./graphql/user/user.mutations";
 import { useQuery } from "@apollo/client";
 import { GET_CURRENT_USER } from "./graphql/user/user.queries";
+import { GET_SHOP_FILTER } from "./graphql/shop/shop.queries";
 
-const App = ({ shopFilter, setShopFilter }) => {
+const App = () => {
   const {
     data: { currentUser },
   } = useQuery(GET_CURRENT_USER);
+  const {
+    data: { shopFilter },
+  } = useQuery(GET_SHOP_FILTER);
   const location = useLocation();
 
   useEffect(() => {
     checkCurrentUser();
-  }, [checkCurrentUser]);
+  }, []);
 
   useEffect(() => {
     setShopFilter("");
-  }, [location, setShopFilter]);
+  }, [location]);
 
   const renderSignPage = useMemo(
     () => (props) =>
@@ -68,14 +69,4 @@ const App = ({ shopFilter, setShopFilter }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  shopFilter: selectShopFilter,
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setShopFilter: (filter) => dispatch(setShopFilter(filter)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

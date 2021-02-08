@@ -1,25 +1,28 @@
+import { useQuery } from "@apollo/client";
 import React, { useEffect, useMemo } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import useDebouncer from "../../hooks/useDebouncer";
 
-import { setShopFilter } from "../../redux/shop/shop.actions";
-import { selectShopFilter } from "../../redux/shop/shop.selectors";
+import { setShopFilter } from "../../graphql/shop/shop.mutations";
+import { GET_SHOP_FILTER } from "../../graphql/shop/shop.queries";
+import useDebouncer from "../../hooks/useDebouncer";
 
 import FormInput from "../form-input/form-input.component";
 
 import "./search.styles.scss";
 
-const Search = ({ currentFilter, dispatch }) => {
+const Search = () => {
+  const {
+    data: { shopFilter },
+  } = useQuery(GET_SHOP_FILTER);
+
   const {
     term: filter,
     setTerm: setFilter,
     debouncedTerm: debouncedFilter,
-  } = useDebouncer(currentFilter);
+  } = useDebouncer(shopFilter);
 
   useEffect(() => {
-    dispatch(setShopFilter(debouncedFilter));
-  }, [debouncedFilter, dispatch]);
+    setShopFilter(debouncedFilter);
+  }, [debouncedFilter]);
 
   const handleInputChange = (e) => {
     setFilter(e.target.value);
@@ -32,7 +35,7 @@ const Search = ({ currentFilter, dispatch }) => {
           className="clear-input input-icon"
           onClick={() => setFilter("")}
         >
-          ⛌
+          x
         </button>
       ) : (
         <span className="input-icon">🔎</span>
@@ -56,8 +59,4 @@ const Search = ({ currentFilter, dispatch }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentFilter: selectShopFilter,
-});
-
-export default connect(mapStateToProps)(Search);
+export default Search;

@@ -1,27 +1,26 @@
 import React, { useMemo } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
 
 import "./directory.styles.scss";
 
 import MenuItem from "../menu-item/menu-item.component";
 
-import { selectDirectorySections } from "../../redux/directory/directory.selectors";
+import { useQuery } from "@apollo/client";
+import { GET_DIRECTORIES_DATA } from "../../graphql/directory/directory.queries";
 
-const Directory = ({ sections }) => {
+const Directory = () => {
+  const {
+    data: { directories },
+  } = useQuery(GET_DIRECTORIES_DATA);
+
   const renderedItems = useMemo(
     () =>
-      sections.map(({ id, ...sectionProps }) => {
+      directories.map(({ id, ...sectionProps }) => {
         return <MenuItem key={id} {...sectionProps} />;
       }),
-    [sections]
+    [directories]
   );
 
   return <div className="directory-menu">{renderedItems}</div>;
 };
 
-const mapStateToProps = createStructuredSelector({
-  sections: selectDirectorySections,
-});
-
-export default connect(mapStateToProps)(Directory);
+export default Directory;

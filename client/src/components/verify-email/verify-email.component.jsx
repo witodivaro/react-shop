@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { setRedirectToFalse } from "../../redux/user/user.actions";
 
 import "./verify-email.styles.scss";
 
@@ -26,8 +24,4 @@ const VerifyEmail = ({ setRedirectToFalse, match }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  setRedirectToFalse: () => dispatch(setRedirectToFalse()),
-});
-
-export default connect(null, mapDispatchToProps)(VerifyEmail);
+export default VerifyEmail;

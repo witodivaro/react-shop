@@ -72,7 +72,6 @@ export const signOut = () => {
   try {
     auth.signOut();
     setCurrentUser(null);
-    console.log("current user is null");
   } catch (error) {
     setUserErrorMessage(error.message);
   }

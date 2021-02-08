@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 
-import CollectionItem from '../../components/collection-item/collection-item.component';
+import CollectionItem from "../../components/collection-item/collection-item.component";
 
 import {
   CollectionPageContainer,
   TitleContainer,
   ItemsContainer,
-} from './collection.styles';
+} from "./collection.styles";
 
 const CollectionPage = ({ collection }) => {
   const { items, title } = collection;

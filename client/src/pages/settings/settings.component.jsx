@@ -37,7 +37,7 @@ const SettingsPage = () => {
       });
       inputs[name] = "";
     },
-    [currentUser, inputs, changeUserData]
+    [currentUser, inputs]
   );
 
   const onConfirmPasswordClick = useCallback(

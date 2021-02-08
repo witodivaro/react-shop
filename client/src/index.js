@@ -1,15 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { ApolloClient, createHttpLink, ApolloProvider } from '@apollo/client';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { ApolloClient, createHttpLink, ApolloProvider } from "@apollo/client";
 
-import App from './App';
-import { store } from './redux/store';
-import cache from './graphql/cache';
+import App from "./App";
+import cache from "./graphql/cache";
 
 const httpLink = createHttpLink({
-  uri: 'https://crwn-clothing.com',
+  uri: "https://crwn-clothing.com",
 });
 
 const client = new ApolloClient({
@@ -19,11 +17,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </ApolloProvider>,
-  document.querySelector('#root')
+  document.querySelector("#root")
 );

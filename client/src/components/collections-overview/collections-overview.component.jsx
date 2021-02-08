@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 
-import './collections-overview.styles.scss';
+import "./collections-overview.styles.scss";
 
-import CollectionPreview from '../collection-preview/collection-preview.component';
+import CollectionPreview from "../collection-preview/collection-preview.component";
 
 const CollectionsOverview = ({ collections }) => {
   const renderedCollections = useMemo(

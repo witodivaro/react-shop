@@ -1,4 +1,5 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
+import DIRECTORY_DATA from "./directory/directory.data";
 
 export const cartItemsVar = makeVar([]);
 export const cartDropdownHiddenVar = makeVar(true);
@@ -6,6 +7,10 @@ export const cartDropdownHiddenVar = makeVar(true);
 export const currentUserVar = makeVar(null);
 export const userDropdownHiddenVar = makeVar(true);
 export const userErrorMessageVar = makeVar("");
+
+export const shopFilterVar = makeVar("");
+
+export const directoriesVar = makeVar(DIRECTORY_DATA);
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -37,6 +42,12 @@ const cache = new InMemoryCache({
         },
         userErrorMessage() {
           return userErrorMessageVar();
+        },
+        shopFilter() {
+          return shopFilterVar();
+        },
+        directories() {
+          return directoriesVar();
         },
       },
     },

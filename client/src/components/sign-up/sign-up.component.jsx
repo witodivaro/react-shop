@@ -46,7 +46,6 @@ const SignUp = () => {
       displayName: inputs.displayName,
     });
     if (userRef) {
-      console.log(match);
       history.push(`${parentPath}/verify`);
     }
   };
