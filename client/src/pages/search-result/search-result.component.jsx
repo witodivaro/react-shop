@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import { useSelector } from "react-redux";
 
 import CollectionItem from "../../components/collection-item/collection-item.component";
-import Search from "../../components/search/search.component";
 
 import { selectItemsByFilter } from "../../redux/shop/shop.selectors";
 
 import { SearchResultContainer } from "./search-result.styles";
 
-const SearchResultPage = ({ collectionItems }) => {
+const SearchResultPage = () => {
+  const collectionItems = useSelector(selectItemsByFilter);
+
   const renderedItems = useMemo(
     () =>
       collectionItems.map((item) => (
@@ -18,16 +18,7 @@ const SearchResultPage = ({ collectionItems }) => {
     [collectionItems]
   );
 
-  return (
-    <SearchResultContainer>
-      <Search />
-      {renderedItems}
-    </SearchResultContainer>
-  );
+  return <SearchResultContainer>{renderedItems}</SearchResultContainer>;
 };
 
-const mapStateToProps = createStructuredSelector({
-  collectionItems: selectItemsByFilter,
-});
-
-export default connect(mapStateToProps)(SearchResultPage);
+export default SearchResultPage;

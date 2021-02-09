@@ -10,7 +10,6 @@ import PageNotFound from "./components/page-not-found/page-not-found.component";
 
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
-import { selectShopFilter } from "./redux/shop/shop.selectors";
 import { setShopFilter } from "./redux/shop/shop.actions";
 
 import GlobalStyle from "./global.styles";
@@ -18,13 +17,10 @@ import GlobalStyle from "./global.styles";
 const Homepage = lazy(() => import("./pages/home/homepage.component"));
 const ShopPage = lazy(() => import("./pages/shop/shop.component"));
 const CheckoutPage = lazy(() => import("./pages/checkout/checkout.component"));
-const SearchResultPage = lazy(() =>
-  import("./pages/search-result/search-result.component")
-);
 const SettingsPage = lazy(() => import("./pages/settings/settings.component"));
 const SignPage = lazy(() => import("./pages/sign/sign.component"));
 
-const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
+const App = ({ checkUserSession, currentUser, setShopFilter }) => {
   const location = useLocation();
 
   useEffect(() => {
@@ -46,29 +42,21 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
     [currentUser]
   );
 
-  const renderedContent = useMemo(
-    () =>
-      shopFilter ? (
-        <SearchResultPage />
-      ) : (
-        <Switch>
-          <Route exact path="/" component={Homepage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route path="/sign" render={renderSignPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route exact path="/settings" render={renderSettingsPage} />
-          <Route path="/" component={PageNotFound} />
-        </Switch>
-      ),
-    [shopFilter, renderSignPage, renderSettingsPage]
-  );
-
   return (
     <div className="App">
       <GlobalStyle />
       <Header />
       <ErrorBoundary>
-        <Suspense fallback={<Spinner />}>{renderedContent}</Suspense>
+        <Suspense fallback={<Spinner />}>
+          <Switch>
+            <Route exact path="/" component={Homepage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route path="/sign" render={renderSignPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route exact path="/settings" render={renderSettingsPage} />
+            <Route path="/" component={PageNotFound} />
+          </Switch>
+        </Suspense>
       </ErrorBoundary>
     </div>
   );
@@ -76,7 +64,6 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  shopFilter: selectShopFilter,
 });
 
 const mapDispatchToProps = (dispatch) => {

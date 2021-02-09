@@ -1,38 +1,60 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense, useMemo } from "react";
 
-import { Route } from "react-router-dom";
-import { connect } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import { connect, useDispatch, useSelector } from "react-redux";
 
-import CollectionPageContainer from "../../pages/collection/collection.container";
-import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview.container";
 import Search from "../../components/search/search.component";
 
 import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
+import { selectShopFilter } from "../../redux/shop/shop.selectors";
+
+const SearchResultPage = lazy(() =>
+  import("../../pages/search-result/search-result.component")
+);
+const CollectionsOverviewContainer = lazy(() =>
+  import("../../components/collections-overview/collections-overview.container")
+);
+const CollectionPageContainer = lazy(() =>
+  import("../../pages/collection/collection.container")
+);
 
 const Shop = ({ match, fetchCollectionsStart }) => {
+  const dispatch = useDispatch();
+  const shopFilter = useSelector(selectShopFilter);
+
   useEffect(() => {
-    fetchCollectionsStart();
+    dispatch(fetchCollectionsStart());
   }, [fetchCollectionsStart]);
+
+  const renderedContent = useMemo(() => {
+    if (shopFilter) {
+      return <SearchResultPage />;
+    } else {
+      return (
+        <>
+          <Route
+            exact
+            path={`${match.path}`}
+            component={CollectionsOverviewContainer}
+          />
+          <Route
+            exact
+            path={`${match.path}/:collectionId`}
+            component={CollectionPageContainer}
+          />
+        </>
+      );
+    }
+  }, [shopFilter, match.path]);
 
   return (
     <div className="shop-page">
       <Search />
-      <Route
-        exact
-        path={`${match.path}`}
-        component={CollectionsOverviewContainer}
-      />
-      <Route
-        exact
-        path={`${match.path}/:collectionId`}
-        component={CollectionPageContainer}
-      />
+      <Switch>
+        <Suspense>{renderedContent}</Suspense>
+      </Switch>
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
-});
-
-export default connect(null, mapDispatchToProps)(Shop);
+export default Shop;
