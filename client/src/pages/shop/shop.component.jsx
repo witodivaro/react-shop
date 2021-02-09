@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense, useMemo } from "react";
 
 import { Route, Switch } from "react-router-dom";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Search from "../../components/search/search.component";
 
@@ -18,7 +18,7 @@ const CollectionPageContainer = lazy(() =>
   import("../../pages/collection/collection.container")
 );
 
-const Shop = ({ match, fetchCollectionsStart }) => {
+const Shop = ({ match }) => {
   const dispatch = useDispatch();
   const shopFilter = useSelector(selectShopFilter);
 
