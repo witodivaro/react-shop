@@ -46,6 +46,16 @@ export const CollectionItemContainer = styled.div`
   align-items: center;
   user-select: none;
 
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    margin-bottom: 10px;
+    max-width: 300px;
+
+    ${AbsoluteCustomButtonContainer} {
+      display: block;
+    }
+  }
+
   &:hover {
     ${ImageContainer} {
       opacity: 0.8;

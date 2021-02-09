@@ -6,6 +6,11 @@ export const SettingsPageContainer = styled.div`
 
   max-width: 1360px;
   width: 60%;
+
+  @media (max-width: 800px) {
+    width: 100%;
+    max-width: 600px;
+  }
 `;
 
 export const SettingsContainer = styled.div`
@@ -25,6 +30,10 @@ export const SettingContainer = styled.div`
   align-items: center;
   grid-gap: 20px;
   grid-template-columns: 80px repeat(2, auto) 1fr;
+
+  @media screen and (max-width: 800px) {
+    grid-template-columns: auto;
+  }
 
   ${CustomButtonContainer} {
     padding: 2px 10px;

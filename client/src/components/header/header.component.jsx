@@ -1,11 +1,13 @@
-import React, { memo, useMemo } from "react";
-import { useSelector } from "react-redux";
+import React, { memo, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Route } from "react-router-dom";
 
 import {
   HeaderContainer,
   LogoContainer,
   OptionsContainer,
   OptionLink,
+  MobileText,
 } from "./header.styles.jsx";
 
 import {
@@ -18,22 +20,31 @@ import UserName from "../user-name/user-name.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import UserDropdown from "../user-dropdown/user-dropdown.component";
+import Search from "../search/search.component";
+import MobileMenuButton from "../menu-button/menu-button.component";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
+import { toggleCartDropdownHidden } from "../../redux/cart/cart.actions.js";
+
+const MOBILE_WIDTH = 800;
 
 const Header = () => {
+  const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const cartDropdownHidden = useSelector(selectCartDropdownHidden);
   const userDropdownHidden = useSelector(selectUserDropdownHidden);
 
-  const renderedAuthentication = useMemo(
-    () =>
-      currentUser ? (
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isMobile = window.screen.width < MOBILE_WIDTH;
+
+  const renderedAuthentication = useMemo(() => {
+    return currentUser ? (
+      <OptionLink as="div">
         <UserName className="option" />
-      ) : (
-        <OptionLink to="/sign/signIn">SIGN IN</OptionLink>
-      ),
-    [currentUser]
-  );
+      </OptionLink>
+    ) : (
+      <OptionLink to="/sign/signIn">SIGN IN</OptionLink>
+    );
+  }, [currentUser]);
 
   const renderedCartDropdown = useMemo(
     () => (cartDropdownHidden ? null : <CartDropdown />),
@@ -44,21 +55,33 @@ const Header = () => {
     return userDropdownHidden ? null : <UserDropdown />;
   }, [userDropdownHidden]);
 
+  const renderedOptions = useMemo(
+    () =>
+      isMenuOpen || !isMobile ? (
+        <OptionsContainer>
+          <OptionLink to="/shop">SHOP</OptionLink>
+          {renderedAuthentication}
+          {renderedUserDropdown}
+          <OptionLink as="div">
+            <MobileText onClick={() => dispatch(toggleCartDropdownHidden())}>
+              Cart
+            </MobileText>
+            <CartIcon />
+          </OptionLink>
+        </OptionsContainer>
+      ) : null,
+    [isMobile, isMenuOpen, renderedAuthentication, renderedUserDropdown]
+  );
+
   return (
     <HeaderContainer>
       <LogoContainer to="/">
         <Logo />
       </LogoContainer>
+      <Route path="/shop" component={Search} />
 
-      <OptionsContainer>
-        <OptionLink to="/shop">SHOP</OptionLink>
-        {renderedAuthentication}
-        {renderedUserDropdown}
-        <OptionLink as="div">
-          <CartIcon />
-        </OptionLink>
-      </OptionsContainer>
-
+      <MobileMenuButton open={isMenuOpen} setOpen={setIsMenuOpen} />
+      {renderedOptions}
       {renderedCartDropdown}
     </HeaderContainer>
   );

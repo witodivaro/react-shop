@@ -10,6 +10,10 @@
 
   cursor: pointer;
 
+  @media (max-width: 800px) {
+    border: 1px solid black;
+  }
+
   &:hover {
     .item-options {
       display: flex;
@@ -25,6 +29,10 @@
   .image-container {
     width: 40%;
     height: 100%;
+
+    @media screen and (max-width: 800px) {
+      opacity: 0.7;
+    }
   }
 
   [disabled] {
@@ -62,6 +70,10 @@
     align-items: center;
     justify-content: center;
     display: none;
+
+    @media (max-width: 800px) {
+      display: flex;
+    }
 
     button {
       border: none;

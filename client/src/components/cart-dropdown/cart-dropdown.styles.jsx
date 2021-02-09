@@ -14,6 +14,13 @@ export const CartDropdownContainer = styled.div`
   right: 60px;
   z-index: 5;
 
+  @media screen and (max-width: 800px) {
+    top: auto;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   ${CustomButtonContainer} {
     margin-top: auto;
   }

@@ -16,8 +16,17 @@ export const ItemsContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
 
+  @media screen and (max-width: 800px) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, auto));
+    justify-content: center;
+  }
+
   & ${CollectionItemContainer} {
     margin-bottom: 30px;
     width: 100%;
+
+    @media screen and (max-width: 800px) {
+      justify-self: center;
+    }
   }
 `;

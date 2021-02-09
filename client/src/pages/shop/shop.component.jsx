@@ -3,8 +3,6 @@ import React, { useEffect, lazy, Suspense, useMemo } from "react";
 import { Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import Search from "../../components/search/search.component";
-
 import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 import { selectShopFilter } from "../../redux/shop/shop.selectors";
 
@@ -49,7 +47,6 @@ const Shop = ({ match }) => {
 
   return (
     <div className="shop-page">
-      <Search />
       <Switch>
         <Suspense>{renderedContent}</Suspense>
       </Switch>
