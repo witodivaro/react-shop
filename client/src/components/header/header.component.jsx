@@ -1,6 +1,5 @@
-import React, { useMemo } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
+import React, { memo, useMemo } from "react";
+import { useSelector } from "react-redux";
 
 import {
   HeaderContainer,
@@ -13,15 +12,19 @@ import {
   selectCurrentUser,
   selectUserDropdownHidden,
 } from "../../redux/user/user.selectors";
+import { selectCartDropdownHidden } from "../../redux/cart/cart.selectors";
 
 import UserName from "../user-name/user-name.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import UserDropdown from "../user-dropdown/user-dropdown.component";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
-import { selectCartDropdownHidden } from "../../redux/cart/cart.selectors";
 
-const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
+const Header = () => {
+  const currentUser = useSelector(selectCurrentUser);
+  const cartDropdownHidden = useSelector(selectCartDropdownHidden);
+  const userDropdownHidden = useSelector(selectUserDropdownHidden);
+
   const renderedAuthentication = useMemo(
     () =>
       currentUser ? (
@@ -61,10 +64,4 @@ const Header = ({ currentUser, cartDropdownHidden, userDropdownHidden }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-  cartDropdownHidden: selectCartDropdownHidden,
-  userDropdownHidden: selectUserDropdownHidden,
-});
-
-export default connect(mapStateToProps)(Header);
+export default memo(Header);

@@ -66,14 +66,7 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
   return (
     <div className="App">
       <GlobalStyle />
-      <Profiler
-        id="header"
-        onRender={(id, state, actualDuration) => {
-          console.log(id, state, actualDuration);
-        }}
-      >
-        <Header />
-      </Profiler>
+      <Header />
       <ErrorBoundary>
         <Suspense fallback={<Spinner />}>{renderedContent}</Suspense>
       </ErrorBoundary>
