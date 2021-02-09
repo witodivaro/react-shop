@@ -1,9 +1,9 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { useDispatch } from "react-redux";
 
-import { addCartItem } from '../../redux/cart/cart.actions';
+import { addCartItem } from "../../redux/cart/cart.actions";
 
-import { cutStringByLength } from '../../utils/utils';
+import { cutStringByLength } from "../../utils/utils";
 
 import {
   CollectionItemContainer,
@@ -12,11 +12,13 @@ import {
   ImageContainer,
   NameContainer,
   PriceContainer,
-} from './collection-item.styles';
+} from "./collection-item.styles";
 
 const MAX_NAME_LENGTH = 30;
 
-const CollectionItem = ({ item, addCartItem }) => {
+const CollectionItem = ({ item }) => {
+  const dispatch = useDispatch();
+
   const { name, price, imageUrl } = item;
   return (
     <CollectionItemContainer>
@@ -27,17 +29,14 @@ const CollectionItem = ({ item, addCartItem }) => {
         </NameContainer>
         <PriceContainer>{price}$</PriceContainer>
       </CollectionFooterContainer>
-      <AbsoluteCustomButtonContainer inverted onClick={() => addCartItem(item)}>
+      <AbsoluteCustomButtonContainer
+        inverted
+        onClick={() => dispatch(addCartItem(item))}
+      >
         Add to cart
       </AbsoluteCustomButtonContainer>
     </CollectionItemContainer>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addCartItem: (item) => dispatch(addCartItem(item)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(CollectionItem);
+export default CollectionItem;

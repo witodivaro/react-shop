@@ -1,23 +1,19 @@
-import React, { useMemo } from 'react';
-import { connect } from 'react-redux';
+import React, { useMemo, memo } from "react";
+import { useDispatch } from "react-redux";
 
 import {
   clearCartItem,
   removeCartItem,
   addCartItem,
-} from '../../redux/cart/cart.actions';
+} from "../../redux/cart/cart.actions";
 
-import './cart-item.styles.scss';
+import "./cart-item.styles.scss";
 
 const MAX_NAME_LENGTH_IN_CART = 14;
 const MAX_WORDS_IN_CART_ITEM_NAME = 2;
 
-const CartItem = ({
-  item,
-  addItemToCart,
-  removeItemFromCart,
-  clearItemFromCart,
-}) => {
+const CartItem = ({ item }) => {
+  const dispatch = useDispatch();
   const { imageUrl, price, quantity, name } = item;
 
   const renderedItemName = useMemo(() => {
@@ -27,15 +23,15 @@ const CartItem = ({
       cutName = cutName.slice(0, MAX_NAME_LENGTH_IN_CART);
     }
 
-    if (cutName.split(' ').length > MAX_WORDS_IN_CART_ITEM_NAME) {
+    if (cutName.split(" ").length > MAX_WORDS_IN_CART_ITEM_NAME) {
       cutName = cutName
-        .split(' ')
+        .split(" ")
         .slice(0, MAX_WORDS_IN_CART_ITEM_NAME)
-        .join(' ');
+        .join(" ");
     }
 
     if (!cutName === name) {
-      cutName += '…';
+      cutName += "…";
     }
 
     return cutName;
@@ -55,17 +51,17 @@ const CartItem = ({
         <button
           className="remove"
           disabled={quantity === 1}
-          onClick={() => removeItemFromCart(item)}
+          onClick={() => dispatch(removeCartItem(item))}
         >
           ❮
         </button>
-        <button className="clear" onClick={() => clearItemFromCart(item)}>
+        <button className="clear" onClick={() => dispatch(clearCartItem(item))}>
           X
         </button>
         <button
           className="add"
           onClick={() => {
-            addItemToCart(item);
+            dispatch(addCartItem(item));
           }}
         >
           ❯
@@ -75,10 +71,4 @@ const CartItem = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  clearItemFromCart: (item) => dispatch(clearCartItem(item)),
-  removeItemFromCart: (item) => dispatch(removeCartItem(item)),
-  addItemToCart: (item) => dispatch(addCartItem(item)),
-});
-
-export default connect(null, mapDispatchToProps)(CartItem);
+export default memo(CartItem);
