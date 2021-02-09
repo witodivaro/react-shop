@@ -1,57 +1,25 @@
 import React, { useMemo } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
-import TinySlider from "tiny-slider-react";
 import CollectionItem from "../collection-item/collection-item.component";
 
 import {
-  ItemContainer,
+  ItemsContainer,
   CollectionPreviewContainer,
   TitleContainer,
 } from "./collection-preview.styles";
 
-const MOBILE_WIDTH = 800;
-
 const ITEMS_AMOUNT_ON_PREVIEW = 4;
-const SLIDER_TIMEOUT = 3500;
-
-const sliderSettings = {
-  items: ITEMS_AMOUNT_ON_PREVIEW,
-  controls: false,
-  nav: false,
-  autoplay: true,
-  autoplayButtonOutput: false,
-  autoplayTimeout: SLIDER_TIMEOUT,
-  autoplayHoverPause: true,
-  useLocalStorage: true,
-};
 
 const CollectionPreview = ({ title, items }) => {
-  const isMobile = window.screen.width < MOBILE_WIDTH;
-
   const history = useHistory();
   const match = useRouteMatch();
 
   const renderedItems = useMemo(() => {
-    const slicedItems = isMobile
-      ? items.slice(0, ITEMS_AMOUNT_ON_PREVIEW)
-      : items;
-
-    return slicedItems.map((item) => {
-      return (
-        <ItemContainer key={item.id}>
-          <CollectionItem item={item} />
-        </ItemContainer>
-      );
+    return items.slice(0, ITEMS_AMOUNT_ON_PREVIEW).map((item) => {
+      return <CollectionItem key={item.id} item={item} />;
     });
-  }, [items, isMobile]);
-
-  const renderSlider = (children) =>
-    isMobile ? (
-      children
-    ) : (
-      <TinySlider settings={sliderSettings}>{children}</TinySlider>
-    );
+  }, [items]);
 
   return (
     <CollectionPreviewContainer>
@@ -60,7 +28,7 @@ const CollectionPreview = ({ title, items }) => {
       >
         {title.toUpperCase()}
       </TitleContainer>
-      {renderSlider(renderedItems)}
+      <ItemsContainer>{renderedItems}</ItemsContainer>
     </CollectionPreviewContainer>
   );
 };

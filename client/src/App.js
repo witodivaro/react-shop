@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useMemo, Suspense } from "react";
+import React, { lazy, useEffect, useMemo, Suspense, Profiler } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -66,7 +66,14 @@ const App = ({ checkUserSession, shopFilter, currentUser, setShopFilter }) => {
   return (
     <div className="App">
       <GlobalStyle />
-      <Header />
+      <Profiler
+        id="header"
+        onRender={(id, state, actualDuration) => {
+          console.log(id, state, actualDuration);
+        }}
+      >
+        <Header />
+      </Profiler>
       <ErrorBoundary>
         <Suspense fallback={<Spinner />}>{renderedContent}</Suspense>
       </ErrorBoundary>
