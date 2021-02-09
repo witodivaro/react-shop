@@ -24,7 +24,7 @@ const Shop = ({ match }) => {
 
   useEffect(() => {
     dispatch(fetchCollectionsStart());
-  }, [fetchCollectionsStart]);
+  }, [dispatch]);
 
   const renderedContent = useMemo(() => {
     if (shopFilter) {
