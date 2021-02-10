@@ -50,8 +50,8 @@ const CartDropdown = () => {
   );
 
   const handleCheckoutClick = () => {
+    dispatch(toggleCartDropdownHidden());
     history.push("/checkout");
-    toggleCartDropdownHidden();
   };
 
   return (

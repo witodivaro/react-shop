@@ -46,10 +46,9 @@ const Header = () => {
     );
   }, [currentUser]);
 
-  const renderedCartDropdown = useMemo(
-    () => (cartDropdownHidden ? null : <CartDropdown />),
-    [cartDropdownHidden]
-  );
+  const renderedCartDropdown = useMemo(() => {
+    return cartDropdownHidden ? null : <CartDropdown />;
+  }, [cartDropdownHidden]);
 
   const renderedUserDropdown = useMemo(() => {
     return userDropdownHidden ? null : <UserDropdown />;
@@ -94,4 +93,4 @@ const Header = () => {
   );
 };
 
-export default memo(Header);
+export default Header;
