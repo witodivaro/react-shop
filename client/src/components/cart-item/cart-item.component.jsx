@@ -39,13 +39,15 @@ const CartItem = ({ item }) => {
 
   return (
     <div className="cart-item">
-      <div className="image-container">
-        <img src={imageUrl} alt={name} />
-      </div>
-      <div className="item-info">
-        <span className="name">{renderedItemName.toUpperCase()}</span>
-        <span className="price">{price}$</span>
-        <span className="quantity">x {quantity}</span>
+      <div className="item-container">
+        <div className="image-container">
+          <img src={imageUrl} alt={name} />
+        </div>
+        <div className="item-info">
+          <span className="name">{renderedItemName.toUpperCase()}</span>
+          <span className="price">{price}$</span>
+          <span className="quantity">x {quantity}</span>
+        </div>
       </div>
       <div className="item-options">
         <button
