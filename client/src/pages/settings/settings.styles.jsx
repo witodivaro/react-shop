@@ -40,7 +40,10 @@ export const SettingContainer = styled.div`
     line-height: inherit;
     height: auto;
     min-width: 0;
-
     outline: none;
+
+    @media screen and (max-width: 800px) {
+      padding: 5px 10px;
+    }
   }
 `;

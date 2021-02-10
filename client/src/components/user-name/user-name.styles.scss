@@ -6,7 +6,7 @@
   user-select: none;
 
   @media screen and (max-width: 800px) {
-    padding-right: 25px;
+    padding-right: 0;
     padding-bottom: 0;
   }
 
@@ -17,6 +17,10 @@
     transform: rotate(90deg);
 
     transition: transform 0.3s;
+
+    @media screen and (max-width: 800px) {
+      right: -20px;
+    }
 
     &.active {
       transform: rotate(-90deg);

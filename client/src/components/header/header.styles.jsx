@@ -63,6 +63,7 @@ export const OptionsContainer = styled.div`
     width: 100%;
     font-size: 20px;
     flex-direction: column;
+    justify-content: center;
   }
 `;
 

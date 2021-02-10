@@ -67,10 +67,17 @@ const Header = () => {
               Cart
             </MobileText>
             <CartIcon />
+            {renderedCartDropdown}
           </OptionLink>
         </OptionsContainer>
       ) : null,
-    [isMobile, isMenuOpen, renderedAuthentication, renderedUserDropdown]
+    [
+      isMobile,
+      isMenuOpen,
+      renderedAuthentication,
+      renderedUserDropdown,
+      renderedCartDropdown,
+    ]
   );
 
   return (
@@ -82,7 +89,6 @@ const Header = () => {
 
       <MobileMenuButton open={isMenuOpen} setOpen={setIsMenuOpen} />
       {renderedOptions}
-      {renderedCartDropdown}
     </HeaderContainer>
   );
 };
