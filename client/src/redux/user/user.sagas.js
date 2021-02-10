@@ -21,6 +21,8 @@ import {
   changeProfileSuccess,
 } from "./user.actions";
 
+import { cartMergeStart } from "../cart/cart.actions";
+
 function* putUserSnapshotViaAction(action, snapshot) {
   yield put(action.call(null, { id: snapshot.id, ...snapshot.data() }));
 }
@@ -44,6 +46,7 @@ function* signInWithGoogle() {
     const { user } = yield auth.signInWithPopup(googleProvider);
     const snapshot = yield getSnapshotFromUserAuth(user);
     yield putUserSnapshotViaAction(signInSuccess, snapshot);
+    yield put(cartMergeStart());
   } catch (error) {
     yield put(signInFailure(error.message));
   }
@@ -61,6 +64,7 @@ function* signInWithEmail({ payload: { email, password } }) {
     }
     const snapshot = yield getSnapshotFromUserAuth(user);
     yield putUserSnapshotViaAction(signInSuccess, snapshot);
+    yield put(cartMergeStart());
   } catch (error) {
     yield put(signInFailure(error.message));
   }
