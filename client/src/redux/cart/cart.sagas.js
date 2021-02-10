@@ -1,11 +1,4 @@
-import {
-  all,
-  call,
-  select,
-  takeEvery,
-  takeLatest,
-  put,
-} from "redux-saga/effects";
+import { all, call, select, takeLatest, put, delay } from "redux-saga/effects";
 import { firestore, updateUserCart } from "../../firebase/firebase.utils";
 import { selectCurrentUser } from "../user/user.selectors";
 import {
@@ -18,7 +11,10 @@ import { selectCartItems } from "./cart.selectors";
 import CartActionTypes from "./cart.types";
 import { mergeCarts } from "./cart.utils";
 
+const UPDATE_CART_DEBOUNCE_TIME = 500;
+
 function* updateCart() {
+  yield delay(UPDATE_CART_DEBOUNCE_TIME);
   try {
     const cartItems = yield select(selectCartItems);
     const currentUser = yield select(selectCurrentUser);
@@ -55,7 +51,7 @@ function* onCartMergeStart() {
 }
 
 function* onCartUpdateStart() {
-  yield takeEvery(CartActionTypes.CART_UPDATE_START, updateCart);
+  yield takeLatest(CartActionTypes.CART_UPDATE_START, updateCart);
 }
 
 function* startCartUpdate() {
