@@ -33,7 +33,7 @@ const SearchResultPage = () => {
       isNothingFound
         ? `Search result for "${shopFilter}"`
         : "Nothing was found :(",
-    [isNothingFound]
+    [isNothingFound, shopFilter]
   );
 
   return (

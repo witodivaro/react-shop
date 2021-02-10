@@ -72,6 +72,7 @@ const Header = () => {
         </OptionsContainer>
       ) : null,
     [
+      dispatch,
       isMobile,
       isMenuOpen,
       renderedAuthentication,
