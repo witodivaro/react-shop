@@ -7,6 +7,14 @@
   justify-content: center;
   align-items: center;
 
+  .form-input {
+    margin: 0;
+  }
+
+  .group {
+    margin: 0;
+  }
+
   @media screen and (max-width: 800px) {
     order: 4;
     margin: 0;
