@@ -50,6 +50,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         displayName,
         email,
         createdAt,
+        cartItems: [],
         ...additionalData,
       });
     } catch (err) {
@@ -78,6 +79,16 @@ export const changeUserProfile = async (userAuth, newUserData) => {
   }
 
   return userRef;
+};
+
+export const updateUserCart = async (userAuth, cartItems) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth}`);
+
+  userRef.update({
+    cartItems,
+  });
 };
 
 export const getCurrentUser = () => {
