@@ -1,4 +1,4 @@
-import { CartActionTypes } from "./cart.types";
+import CartActionTypes from "./cart.types";
 
 export const toggleCartDropdownHidden = () => {
   return {
@@ -26,3 +26,25 @@ export const clearCartItem = (item) => {
     payload: item,
   };
 };
+
+export const cartUpdateStart = () => ({
+  type: CartActionTypes.CART_UPDATE_START,
+});
+
+export const cartMergeStart = () => ({
+  type: CartActionTypes.CART_MERGE_START,
+});
+
+export const cartMergeSuccess = (cartItems) => ({
+  type: CartActionTypes.CART_MERGE_SUCCESS,
+  payload: cartItems,
+});
+
+export const cartUpdateSuccess = () => ({
+  type: CartActionTypes.CART_UPDATE_SUCCESS,
+});
+
+export const cartFailure = (errorMessage) => ({
+  type: CartActionTypes.CART_FAILURE,
+  payload: errorMessage,
+});

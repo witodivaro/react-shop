@@ -1,3 +1,5 @@
+import uniqWith from "lodash.uniqwith";
+
 export const addItemToCart = (cartItems, cartItemToAdd) => {
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === cartItemToAdd.id
@@ -28,4 +30,13 @@ export const removeItemFromCart = (cartItems, cartItemToRemove) => {
       ? { ...cartItemToRemove, quantity: existingCartItem.quantity - 1 }
       : cartItem
   );
+};
+
+const cartItemsComparator = (left, right) => left.id === right.id;
+
+export const mergeCarts = (localCart, remoteCart) => {
+  const unsortedMergedCart = [...localCart, ...remoteCart];
+  const sortedMergedCart = uniqWith(unsortedMergedCart, cartItemsComparator);
+
+  return sortedMergedCart;
 };

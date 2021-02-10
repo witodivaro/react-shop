@@ -1,5 +1,82 @@
-import { all } from "redux-saga/effects";
+import {
+  all,
+  call,
+  select,
+  takeEvery,
+  takeLatest,
+  put,
+} from "redux-saga/effects";
+import { firestore, updateUserCart } from "../../firebase/firebase.utils";
+import { selectCurrentUser } from "../user/user.selectors";
+import {
+  cartFailure,
+  cartUpdateStart,
+  cartMergeSuccess,
+  cartUpdateSuccess,
+} from "./cart.actions";
+import { selectCartItems } from "./cart.selectors";
+import CartActionTypes from "./cart.types";
+import { mergeCarts } from "./cart.utils";
+
+function* updateCart() {
+  try {
+    const cartItems = yield select(selectCartItems);
+    const currentUser = yield select(selectCurrentUser);
+
+    if (!currentUser) return;
+
+    yield updateUserCart(currentUser.id, cartItems);
+    yield put(cartUpdateSuccess());
+  } catch (error) {
+    yield put(cartFailure(error.message));
+  }
+}
+
+function* mergeLocalAndRemoteCarts() {
+  try {
+    const currentUser = yield select(selectCurrentUser);
+    if (!currentUser) return;
+
+    const userRef = yield firestore.doc(`users/${currentUser.id}`);
+    const snapshot = yield userRef.get();
+    const { cartItems: remoteCartItems } = yield snapshot.data();
+    const localCartItems = yield select(selectCartItems);
+
+    const mergedCart = yield mergeCarts(localCartItems, remoteCartItems);
+
+    yield put(cartMergeSuccess(mergedCart));
+  } catch (error) {
+    yield put(cartFailure(error.message));
+  }
+}
+
+function* onCartMergeStart() {
+  yield takeLatest(CartActionTypes.CART_MERGE_START, mergeLocalAndRemoteCarts);
+}
+
+function* onCartUpdateStart() {
+  yield takeEvery(CartActionTypes.CART_UPDATE_START, updateCart);
+}
+
+function* startCartUpdate() {
+  yield put(cartUpdateStart());
+}
+
+function* onCartUpdate() {
+  yield takeLatest(
+    [
+      CartActionTypes.ADD_ITEM,
+      CartActionTypes.CLEAR_ITEM,
+      CartActionTypes.REMOVE_ITEM,
+    ],
+    startCartUpdate
+  );
+}
 
 export function* cartSagas() {
-  yield all([]);
+  yield all([
+    call(onCartUpdateStart),
+    call(onCartMergeStart),
+    call(onCartUpdate),
+  ]);
 }

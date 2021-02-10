@@ -1,11 +1,12 @@
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { CartActionTypes } from "./cart.types.js";
+import CartActionTypes from "./cart.types.js";
 import { addItemToCart, removeItemFromCart } from "./cart.utils";
 
 const INITIAL_STATE = {
   dropdownHidden: true,
   cartItems: [],
+  errorMessage: "",
 };
 
 const cartDropdownReducer = (state = INITIAL_STATE, action) => {
@@ -34,6 +35,25 @@ const cartDropdownReducer = (state = INITIAL_STATE, action) => {
         cartItems: state.cartItems.filter(
           (cartItem) => cartItem.id !== action.payload.id
         ),
+      };
+
+    case CartActionTypes.CART_MERGE_SUCCESS:
+      return {
+        ...state,
+        cartItems: action.payload,
+        errorMessage: "",
+      };
+
+    case CartActionTypes.CART_UPDATE_SUCCESS:
+      return {
+        ...state,
+        errorMessage: "",
+      };
+
+    case CartActionTypes.CART_FAILURE:
+      return {
+        ...state,
+        errorMessage: action.payload,
       };
 
     default:

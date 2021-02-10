@@ -1,6 +1,13 @@
-export const CartActionTypes = {
+const CartActionTypes = {
   TOGGLE_DROPDOWN_HIDDEN: "cart/TOGGLE_DROPDOWN_HIDDEN",
   ADD_ITEM: "cart/ADD_ITEM",
   REMOVE_ITEM: "cart/REMOVE_ITEM",
   CLEAR_ITEM: "cart/CLEAR_ITEM",
+  CART_UPDATE_START: "cart/CART_UPDATE_START",
+  CART_UPDATE_SUCCESS: "cart/CART_UPDATE_SUCCESS",
+  CART_MERGE_START: "cart/CART_MERGE_START",
+  CART_MERGE_SUCCESS: "cart/CART_MERGE_SUCCESS",
+  CART_FAILURE: "cart/FAILURE",
 };
+
+export default CartActionTypes;
